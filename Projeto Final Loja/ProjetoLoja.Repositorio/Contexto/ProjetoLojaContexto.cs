@@ -8,9 +8,6 @@ public class ProjetoLojaContexto : DbContext
 
     public DbSet<Produtos> Produtos { get; set; }
 
-    public ProjetoLojaContexto()
-    {
-    }
 
     public ProjetoLojaContexto(DbContextOptions options) : base(options)
     {
