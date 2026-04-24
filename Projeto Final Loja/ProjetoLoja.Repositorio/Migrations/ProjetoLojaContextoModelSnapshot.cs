@@ -30,7 +30,12 @@ namespace ProjetoLoja.Repositorio.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("Ativo")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("Ativo");
+
+                    b.Property<string>("Descricao")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Descricao");
 
                     b.Property<string>("Nome")
                         .IsRequired()

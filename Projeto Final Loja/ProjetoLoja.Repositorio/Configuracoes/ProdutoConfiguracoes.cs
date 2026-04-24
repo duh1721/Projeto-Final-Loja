@@ -15,6 +15,8 @@ namespace ProjetoLoja.Repositorio.Configuracao
             builder.Property(nameof(Produtos.Nome)).HasColumnName("Nome").IsRequired(true);
             builder.Property(nameof(Produtos.Preco)).HasColumnName("Preco").IsRequired(true);
             builder.Property(nameof(Produtos.Quantidade)).HasColumnName("Quantidade").IsRequired(true);
+            builder.Property(nameof(Produtos.Descricao)).HasColumnName("Descricao").IsRequired(false);
+            builder.Property(nameof(Produtos.Ativo)).HasColumnName("Ativo").IsRequired(true);
             
         }
     }
