@@ -12,14 +12,14 @@ namespace ProjetoLoja.Repositorio
             
         }
 
-        public async Task<int> Salvar(Produtos produto)
+        public async Task<int> Salvar(Produto produto)
         {
             _contexto.Produtos.Add(produto);
             await _contexto.SaveChangesAsync();
             return produto.Id;
         }
 
-        public async Task AtualizarProduto(Produtos produto)
+        public async Task AtualizarProduto(Produto produto)
         {
             _contexto.Produtos.Update(produto);
             await _contexto.SaveChangesAsync();
@@ -35,12 +35,12 @@ namespace ProjetoLoja.Repositorio
             }
         }
 
-        public async Task<IEnumerable<Produtos?>> ObterProdutoPorId(int id)
+        public async Task<IEnumerable<Produto>> ObterProdutoPorId(int id)
         {
             return await _contexto.Produtos.Where(p => p.Id == id).ToListAsync();
         }
 
-        public async Task<IEnumerable<Produtos?>> ObterTodosProdutos()
+        public async Task<IEnumerable<Produto>> ObterTodosProdutos()
         {
             return await _contexto.Produtos.ToListAsync();
         }

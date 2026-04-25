@@ -166,3 +166,4 @@ C:\Projeto Final\Projeto Final Loja\ProjetoLoja.API\obj\Debug\net10.0\refint\Pro
 C:\Projeto Final\Projeto Final Loja\ProjetoLoja.API\obj\Debug\net10.0\ProjetoLoja.API.pdb
 C:\Projeto Final\Projeto Final Loja\ProjetoLoja.API\obj\Debug\net10.0\ProjetoLoja.API.genruntimeconfig.cache
 C:\Projeto Final\Projeto Final Loja\ProjetoLoja.API\obj\Debug\net10.0\ref\ProjetoLoja.API.dll
+C:\Projeto Final\Projeto Final Loja\ProjetoLoja.API\obj\Debug\net10.0\ProjetoLoja.API.sourcelink.json

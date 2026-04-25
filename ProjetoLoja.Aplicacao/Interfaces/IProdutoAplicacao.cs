@@ -5,11 +5,11 @@ namespace ProjetoLoja.Aplicacao.Interfaces
 {
     public interface IProdutoAplicacao
     {
-        Task<IEnumerable<Produtos?>> ObterTodosProdutos();
-        Task<Produtos?> ObterProdutoPorId(int id);
+        Task<IEnumerable<Produto>> ObterTodosProdutos();
+        Task<Produto> ObterProdutoPorId(int id);
         Task AtivarProduto(int ProdutoId);
-        Task<int> AdicionarProduto(Produtos produto);
-        Task AtualizarProduto(Produtos produto);
+        Task<int> AdicionarProduto(Produto produto);
+        Task AtualizarProduto(Produto produto);
         Task ExcluirProduto(int id);
     }
 }

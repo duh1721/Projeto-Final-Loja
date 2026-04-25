@@ -15,3 +15,4 @@ C:\Projeto Final\Projeto Final Loja\ProjetoLoja.Repositorio\obj\Debug\net10.0\re
 C:\Projeto Final\Projeto Final Loja\ProjetoLoja.Repositorio\obj\Debug\net10.0\ProjetoLoja.Repositorio.pdb
 C:\Projeto Final\Projeto Final Loja\ProjetoLoja.Repositorio\obj\Debug\net10.0\ProjetoLoja.Repositorio.genruntimeconfig.cache
 C:\Projeto Final\Projeto Final Loja\ProjetoLoja.Repositorio\obj\Debug\net10.0\ref\ProjetoLoja.Repositorio.dll
+C:\Projeto Final\Projeto Final Loja\ProjetoLoja.Repositorio\obj\Debug\net10.0\ProjetoLoja.Repositorio.sourcelink.json

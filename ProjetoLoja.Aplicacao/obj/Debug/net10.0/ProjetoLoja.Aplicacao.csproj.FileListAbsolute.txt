@@ -17,3 +17,4 @@ C:\Projeto Final\Projeto Final Loja\ProjetoLoja.Aplicacao\obj\Debug\net10.0\Proj
 C:\Projeto Final\Projeto Final Loja\ProjetoLoja.Aplicacao\obj\Debug\net10.0\refint\ProjetoLoja.Aplicacao.dll
 C:\Projeto Final\Projeto Final Loja\ProjetoLoja.Aplicacao\obj\Debug\net10.0\ProjetoLoja.Aplicacao.pdb
 C:\Projeto Final\Projeto Final Loja\ProjetoLoja.Aplicacao\obj\Debug\net10.0\ref\ProjetoLoja.Aplicacao.dll
+C:\Projeto Final\Projeto Final Loja\ProjetoLoja.Aplicacao\obj\Debug\net10.0\ProjetoLoja.Aplicacao.sourcelink.json

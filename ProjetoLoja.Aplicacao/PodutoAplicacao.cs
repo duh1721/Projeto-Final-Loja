@@ -14,7 +14,7 @@ namespace ProjetoLoja.Aplicacao
             _produtoRepositorio = produtoRepositorio;
         }
 
-        public async Task<int> AdicionarProduto(Produtos produto)
+        public async Task<int> AdicionarProduto(Produto produto)
         {
             if (produto == null)
                 throw new Exception("Produto nao pode ser nulo");
@@ -23,7 +23,7 @@ namespace ProjetoLoja.Aplicacao
             return await _produtoRepositorio.Salvar(produto);
         }
 
-        public async Task AtualizarProduto(Produtos produto)
+        public async Task AtualizarProduto(Produto produto)
         {
             var produtoExistente = (await _produtoRepositorio.ObterProdutoPorId(produto.Id)).FirstOrDefault();
 
@@ -52,7 +52,7 @@ namespace ProjetoLoja.Aplicacao
 
         }
 
-        public async Task<Produtos?> ObterProdutoPorId(int id)
+        public async Task<Produto> ObterProdutoPorId(int id)
         {
             var produtoExistente = (await _produtoRepositorio.ObterProdutoPorId(id)).FirstOrDefault();
 
@@ -63,7 +63,7 @@ namespace ProjetoLoja.Aplicacao
 
         }
 
-        public async Task<IEnumerable<Produtos?>> ObterTodosProdutos()
+        public async Task<IEnumerable<Produto>> ObterTodosProdutos()
         {
             return await _produtoRepositorio.ObterTodosProdutos();
         }
@@ -80,7 +80,7 @@ namespace ProjetoLoja.Aplicacao
         }
         
         #region util
-        private static void ValidarInformacoesProduto(Produtos produtos)
+        private static void ValidarInformacoesProduto(Produto produtos)
         {
 
             if (string.IsNullOrEmpty(produtos.Nome))

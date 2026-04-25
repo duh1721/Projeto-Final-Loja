@@ -5,19 +5,22 @@ using ProjetoLoja.Dominio.Entidades;
 
 namespace ProjetoLoja.Repositorio.Configuracao
 {
-    public class ProdutosConfiguration : IEntityTypeConfiguration<Produtos>
+    public class ProdutosConfiguration : IEntityTypeConfiguration<Produto>
     {
-        public void Configure(EntityTypeBuilder<Produtos> builder)
+        public void Configure(EntityTypeBuilder<Produto> builder)
         {
             builder.ToTable("Produtos").HasKey(p => p.Id);
 
-            builder.Property(nameof(Produtos.Id)).HasColumnName("ProdutoId");
-            builder.Property(nameof(Produtos.Nome)).HasColumnName("Nome").IsRequired(true);
-            builder.Property(nameof(Produtos.Preco)).HasColumnName("Preco").IsRequired(true);
-            builder.Property(nameof(Produtos.Quantidade)).HasColumnName("Quantidade").IsRequired(true);
-            builder.Property(nameof(Produtos.Descricao)).HasColumnName("Descricao").IsRequired(false);
-            builder.Property(nameof(Produtos.Ativo)).HasColumnName("Ativo").IsRequired(true);
-            
+            builder.Property(nameof(Produto.Id)).HasColumnName("ProdutoId");
+            builder.Property(nameof(Produto.Nome)).HasColumnName("Nome").IsRequired(true);
+            builder.Property(nameof(Produto.Preco)).HasColumnName("Preco").IsRequired(true);
+            builder.Property(nameof(Produto.Quantidade)).HasColumnName("Quantidade").IsRequired(true);
+            builder.Property(nameof(Produto.Descricao)).HasColumnName("Descricao").IsRequired(false);
+            builder.Property(nameof(Produto.Ativo)).HasColumnName("Ativo").IsRequired(true);
+            builder.Property(nameof(Produto.TipoProdutoId)).HasColumnName("TipoProdutoId").IsRequired(true);
+
+            builder.HasOne(t => t.TipoProduto).WithMany(s => s.Produto).HasForeignKey(t => t.TipoProdutoId);
+
         }
     }
 }

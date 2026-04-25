@@ -7,9 +7,21 @@ using ProjetoLoja.Aplicacao.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+// Repositorios
 builder.Services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
+builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
+builder.Services.AddScoped<IEnderecoRepositorio, EnderecoRepositorio>();
+builder.Services.AddScoped<IPedidoRepositorio, PedidoRepositorio>();
+builder.Services.AddScoped<IItensPedidoRepositorio, ItensPedidoRepositorio>();
+builder.Services.AddScoped<ITipoProdutoRepositorio, TipoProdutoRepositorio>();
+
+// Aplicacao
 builder.Services.AddScoped<IProdutoAplicacao, ProdutoAplicacao>();
+builder.Services.AddScoped<IClienteAplicacao, ClienteAplicacao>();
+builder.Services.AddScoped<IEnderecoAplicacao, EnderecoAplicacao>();
+builder.Services.AddScoped<IPedidoAplicacao, PedidoAplicacao>();
+builder.Services.AddScoped<IItensPedidoAplicacao, ItensPedidoAplicacao>();
+builder.Services.AddScoped<ITipoProdutoAplicacao, TipoProdutoAplicacao>();
 
 builder.Services.AddDbContext<ProjetoLojaContexto>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

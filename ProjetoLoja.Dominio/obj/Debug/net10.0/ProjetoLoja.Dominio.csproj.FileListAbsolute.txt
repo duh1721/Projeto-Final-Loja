@@ -9,3 +9,4 @@ C:\Projeto Final\Projeto Final Loja\ProjetoLoja.Dominio\obj\Debug\net10.0\Projet
 C:\Projeto Final\Projeto Final Loja\ProjetoLoja.Dominio\obj\Debug\net10.0\refint\ProjetoLoja.Dominio.dll
 C:\Projeto Final\Projeto Final Loja\ProjetoLoja.Dominio\obj\Debug\net10.0\ProjetoLoja.Dominio.pdb
 C:\Projeto Final\Projeto Final Loja\ProjetoLoja.Dominio\obj\Debug\net10.0\ref\ProjetoLoja.Dominio.dll
+C:\Projeto Final\Projeto Final Loja\ProjetoLoja.Dominio\obj\Debug\net10.0\ProjetoLoja.Dominio.sourcelink.json

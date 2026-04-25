@@ -1,18 +1,16 @@
-using System.ComponentModel;
-
 namespace ProjetoLoja.Dominio.Entidades
 {
-    public class Produtos
+    public class Clientes
     {
         public int Id { get; set; }
         public required string Nome { get; set; }
-        public decimal Preco { get; set; }
-        public int Quantidade { get; set; }
-        public required string Descricao { get; set; }
+        public required string Email { get; set; }
+        public required string Telefone { get; set; }
         public bool Ativo { get; set; }
 
+        public ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
 
-        public Produtos()
+        public Clientes()
         {
             Ativo = true;
         }

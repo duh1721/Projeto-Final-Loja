@@ -4,10 +4,10 @@ namespace ProjetoLoja.Repositorio.Interfaces
 {
     public interface IProdutoRepositorio
     {
-        Task<IEnumerable<Produtos?>> ObterTodosProdutos();
-        Task<IEnumerable<Produtos?>> ObterProdutoPorId(int id);
-        Task<int> Salvar(Produtos produto);
-        Task AtualizarProduto(Produtos produto);
+        Task<IEnumerable<Produto>> ObterTodosProdutos();
+        Task<IEnumerable<Produto>> ObterProdutoPorId(int id);
+        Task<int> Salvar(Produto produto);
+        Task AtualizarProduto(Produto produto);
         Task ExcluirProduto(int id);
     }
 }

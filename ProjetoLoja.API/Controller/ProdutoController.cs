@@ -21,7 +21,7 @@ namespace ProjetoLoja.API.Controller
 
         [HttpGet]
         [Route("ObterProdutos")]
-        public async Task<ActionResult<IEnumerable<Produtos?>>> ObterTodosProdutos()
+        public async Task<ActionResult<IEnumerable<Produto>>> ObterTodosProdutos()
         {
             var produtos = await _produtoAplicacao.ObterTodosProdutos();
             return Ok(produtos);
@@ -29,7 +29,7 @@ namespace ProjetoLoja.API.Controller
 
         [HttpGet]
         [Route("ObterProdutoPorId/{id}")]
-        public async Task<ActionResult<Produtos?>> ObterProdutoPorId(int id)
+        public async Task<ActionResult<Produto>> ObterProdutoPorId(int id)
         {
             var produto = await _produtoAplicacao.ObterProdutoPorId(id);
             if (produto == null)
@@ -45,12 +45,14 @@ namespace ProjetoLoja.API.Controller
         {
             try
             {
-                var produtoDominio = new Produtos()
+                var produtoDominio = new Produto()
                 {
                     Nome = produtoCriar.Nome,
                     Preco = produtoCriar.Preco,
                     Quantidade = produtoCriar.Quantidade,
                     Descricao = produtoCriar.Descricao,
+                    Ativo = produtoCriar.Ativo,
+                    TipoProdutoId = produtoCriar.TipoProdutoId
                 };
 
                 var produtoId = await _produtoAplicacao.AdicionarProduto(produtoDominio);
@@ -64,23 +66,23 @@ namespace ProjetoLoja.API.Controller
         }
 
         [HttpPut]
-        [Route("AtualizarProduto/{id}")]
-        public async Task<ActionResult> AtualizarProduto(int id, Produtos produto)
+        [Route("AtualizarProduto")]
+        public async Task<ActionResult> AtualizarProduto( Produto produto)
         {
             try
             {
-                var produtoDominio = new Produtos()
+                var produtoDominio = new Produto()
                 {
-                    Id = id,
                     Nome = produto.Nome,
                     Preco = produto.Preco,
                     Quantidade = produto.Quantidade,
                     Descricao = produto.Descricao,
-                    Ativo = produto.Ativo
+                    Ativo = produto.Ativo,
+                    TipoProdutoId = produto.TipoProdutoId
                 };
                 await _produtoAplicacao.AtualizarProduto(produtoDominio);
 
-                return Ok($"Produto atualizado com sucesso!\nId: {id}\nNome: {produto.Nome}\nPreco: {produto.Preco}\nQuantidade: {produto.Quantidade}\nDescricao: {produto.Descricao}\nAtivo: {produto.Ativo}");
+                return Ok($"Produto atualizado com sucesso!\nId: {produto.Id}\nNome: {produto.Nome}\nPreco: {produto.Preco}\nQuantidade: {produto.Quantidade}\nDescricao: {produto.Descricao}\nAtivo: {produto.Ativo}");
             }
             catch (Exception ex)
             {
