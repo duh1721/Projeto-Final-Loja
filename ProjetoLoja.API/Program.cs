@@ -3,7 +3,7 @@ using ProjetoLoja.Repositorio;
 using ProjetoLoja.Repositorio.Interfaces;
 using ProjetoLoja.Aplicacao;
 using ProjetoLoja.Aplicacao.Interfaces;
-
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +29,13 @@ builder.Services.AddDbContext<ProjetoLojaContexto>(options =>
 
 builder.Services.AddControllers();
 
+
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

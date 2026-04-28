@@ -45,7 +45,7 @@ namespace ProjetoLoja.Aplicacao
             await _itensPedidoRepositorio.AtualizarItensPedido(itensPedidoExistente);
         }
 
-        public async Task<ItensPedido?> ObterItensPedidoPorId(int id)
+        public async Task<ItensPedido> ObterItensPedidoPorId(int id)
         {
             var itensPedidoExistente = await _itensPedidoRepositorio.ObterItensPedidoPorId(id);
             if (itensPedidoExistente == null)
@@ -54,9 +54,19 @@ namespace ProjetoLoja.Aplicacao
             return itensPedidoExistente;
         }
 
-        public async Task<IEnumerable<ItensPedido?>> ObterTodosItensPedido()
+        public async Task<IEnumerable<ItensPedido>> ObterTodosItensPedido()
         {
             return await _itensPedidoRepositorio.ObterTodosItensPedido();
+        }
+
+        public async Task AtivarItensPedido(int id)
+        {
+            var itensPedidoExistente = await _itensPedidoRepositorio.ObterItensPedidoPorId(id);
+            if (itensPedidoExistente == null)
+                throw new Exception("Item do pedido não encontrado");
+
+            itensPedidoExistente.Restaurar();
+            await _itensPedidoRepositorio.AtualizarItensPedido(itensPedidoExistente);
         }
     }
 }

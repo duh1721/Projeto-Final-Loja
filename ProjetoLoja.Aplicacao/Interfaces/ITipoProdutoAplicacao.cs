@@ -9,5 +9,6 @@ namespace ProjetoLoja.Aplicacao.Interfaces
         Task<int> AdicionarTipoProduto(TipoProduto tipoProduto);
         Task AtualizarTipoProduto(TipoProduto tipoProduto);
         Task ExcluirTipoProduto(int id);
+        Task AtivarTipoProduto(int id);
     }
 }

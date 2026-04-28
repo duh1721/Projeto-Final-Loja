@@ -4,9 +4,9 @@ namespace ProjetoLoja.Dominio.Entidades
     {
         public int Id { get; set; }
         public required int PedidoId { get; set; }
-        public required Pedido Pedido { get; set; }
+        public Pedido Pedido { get; set; }
         public required int ProdutoId { get; set; }
-        public required Produto Produto { get; set; }
+        public Produto Produto { get; set; }
         public int Quantidade { get; set; }
         public decimal PrecoUnitario { get; set; }
         public bool Ativo { get; set; }

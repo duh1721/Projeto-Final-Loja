@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjetoLoja.Dominio.Entidades;
 using ProjetoLoja.Aplicacao.Interfaces;
+using ProjetoLoja.API.Models.Enderecos.Requisicao;
+using ProjetoLoja.API.Models.Enderecos.Resposta;
+
 
 namespace ProjetoLoja.API.Controller
 {
@@ -28,21 +31,37 @@ namespace ProjetoLoja.API.Controller
         public async Task<ActionResult<Enderecos>> ObterEnderecoPorId(int id)
         {
             var endereco = await _enderecoAplicacao.ObterEnderecoPorId(id);
-            if (endereco == null)
+            
+            var enderecoResposta = new EnderecoResposta()
             {
-                return NotFound();
-            }
-            return Ok(endereco);
+                Id = endereco.Id,
+                Rua = endereco.Rua,
+                Numero = endereco.Numero,
+                Bairro = endereco.Bairro,
+                Cidade = endereco.Cidade,
+                Estado = endereco.Estado,
+                Cep = endereco.Cep
+            };
+            return Ok(enderecoResposta);
         }
 
         [HttpPost]
         [Route("CriarEndereco")]
-        public async Task<ActionResult> CriarEndereco([FromBody] Enderecos endereco)
+        public async Task<ActionResult> CriarEndereco([FromBody] EnderecoCriar endereco)
         {
             try
             {
-                var enderecoId = await _enderecoAplicacao.AdicionarEndereco(endereco);
-                return Ok($"Endereço adicionado com sucesso! Id: {enderecoId}");
+                var novoEndereco = new Enderecos()
+                {
+                    Rua = endereco.Rua,
+                    Numero = endereco.Numero,
+                    Bairro = endereco.Bairro,
+                    Cidade = endereco.Cidade,
+                    Estado = endereco.Estado,
+                    Cep = endereco.Cep
+                };
+                await _enderecoAplicacao.AdicionarEndereco(novoEndereco);
+                return Ok("Endereço criado com sucesso!");
             }
             catch (Exception ex)
             {
@@ -52,12 +71,24 @@ namespace ProjetoLoja.API.Controller
 
         [HttpPut]
         [Route("AtualizarEndereco/{id}")]
-        public async Task<ActionResult> AtualizarEndereco(int id, Enderecos endereco)
+        public async Task<ActionResult> AtualizarEndereco(int id, EnderecoAtualizar endereco)
         {
             try
             {
-                endereco.Id = id;
-                await _enderecoAplicacao.AtualizarEndereco(endereco);
+                var enderecoExistente = await _enderecoAplicacao.ObterEnderecoPorId(id);
+                if (enderecoExistente == null)
+                {
+                    return NotFound();
+                }
+
+                enderecoExistente.Rua = endereco.Rua;
+                enderecoExistente.Numero = endereco.Numero;
+                enderecoExistente.Bairro = endereco.Bairro;
+                enderecoExistente.Cidade = endereco.Cidade;
+                enderecoExistente.Estado = endereco.Estado;
+                enderecoExistente.Cep = endereco.Cep;
+
+                await _enderecoAplicacao.AtualizarEndereco(enderecoExistente);
                 return Ok("Endereço atualizado com sucesso!");
             }
             catch (Exception ex)

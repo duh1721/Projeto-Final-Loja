@@ -57,5 +57,15 @@ namespace ProjetoLoja.Aplicacao
         {
             return await _tipoProdutoRepositorio.ObterTodosTiposProduto();
         }
+
+        public async Task AtivarTipoProduto(int id)
+        {
+            var tipoProdutoExistente = await _tipoProdutoRepositorio.ObterTipoProdutoPorId(id);
+            if (tipoProdutoExistente == null)
+                throw new Exception("Tipo de produto não encontrado");
+
+            tipoProdutoExistente.Restaurar();
+            await _tipoProdutoRepositorio.AtualizarTipoProduto(tipoProdutoExistente);
+        }
     }
 }

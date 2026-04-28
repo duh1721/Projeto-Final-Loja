@@ -6,14 +6,18 @@ namespace ProjetoLoja.Dominio.Entidades
     {
         public int Id { get; set; }
         public required string Nome { get; set; }
+        public required string Descricao { get; set; }
         public decimal Preco { get; set; }
         public int Quantidade { get; set; }
-        public string Descricao { get; set; }
+
         public bool Ativo { get; set; }
-        public required int TipoProdutoId { get; set; }
+
+        public int TipoProdutoId { get; set; }
         public TipoProduto TipoProduto { get; set; }
+
         public ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
 
+        public DateTime DataCriacao { get; set; } = DateTime.Now;
 
         public Produto()
         {

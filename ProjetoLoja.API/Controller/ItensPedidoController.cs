@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjetoLoja.Dominio.Entidades;
 using ProjetoLoja.Aplicacao.Interfaces;
+using ProjetoLoja.API.Models.ItensPedido.Requisicao;
+using ProjetoLoja.API.Models.ItensPedido.Resposta;
 
 namespace ProjetoLoja.API.Controller
 {
@@ -17,31 +19,62 @@ namespace ProjetoLoja.API.Controller
 
         [HttpGet]
         [Route("ObterItensPedido")]
-        public async Task<ActionResult<IEnumerable<ItensPedido?>>> ObterTodosItensPedido()
+        public async Task<ActionResult<IEnumerable<ItensPedido>>> ObterTodosItensPedido()
         {
-            var itensPedido = await _itensPedidoAplicacao.ObterTodosItensPedido();
-            return Ok(itensPedido);
+            try
+            {
+                var itensPedido = await _itensPedidoAplicacao.ObterTodosItensPedido();
+
+                var itensPedidoResposta = itensPedido.Select(item => new ItensPedidoResposta()
+                {
+                    Id = item.Id,
+                    PedidoId = item.PedidoId,
+                    ProdutoId = item.ProdutoId,
+                    Quantidade = item.Quantidade,
+                    PrecoUnitario = item.PrecoUnitario
+                }).ToList();
+                return Ok(itensPedidoResposta);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro ao obter itens do pedido: {ex.Message}");
+            }
         }
 
         [HttpGet]
         [Route("ObterItensPedidoPorId/{id}")]
-        public async Task<ActionResult<ItensPedido?>> ObterItensPedidoPorId(int id)
+        public async Task<ActionResult<ItensPedido>> ObterItensPedidoPorId(int id)
         {
-            var itensPedido = await _itensPedidoAplicacao.ObterItensPedidoPorId(id);
-            if (itensPedido == null)
+            try
             {
-                return NotFound();
+                var itensPedido = await _itensPedidoAplicacao.ObterItensPedidoPorId(id);
+                if (itensPedido == null)
+                {
+                    return NotFound();
+                }
+                return Ok(itensPedido);
             }
-            return Ok(itensPedido);
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro ao obter item do pedido: {ex.Message}");
+            }
         }
 
         [HttpPost]
         [Route("CriarItensPedido")]
-        public async Task<ActionResult> CriarItensPedido([FromBody] ItensPedido itensPedido)
+        public async Task<ActionResult> CriarItensPedido([FromBody] ItensPedidoCriar itensPedidoCriar)
         {
             try
             {
-                var itensPedidoId = await _itensPedidoAplicacao.AdicionarItensPedido(itensPedido);
+                var novoItem = new ItensPedido()
+                {
+                    PedidoId = itensPedidoCriar.PedidoId,
+                    ProdutoId = itensPedidoCriar.ProdutoId,
+                    Quantidade = itensPedidoCriar.Quantidade,
+                    PrecoUnitario = itensPedidoCriar.PrecoUnitario
+                };
+
+                var itensPedidoId = await _itensPedidoAplicacao.AdicionarItensPedido(novoItem);
                 return Ok($"Item do pedido adicionado com sucesso! Id: {itensPedidoId}");
             }
             catch (Exception ex)
@@ -51,14 +84,22 @@ namespace ProjetoLoja.API.Controller
         }
 
         [HttpPut]
-        [Route("AtualizarItensPedido/{id}")]
-        public async Task<ActionResult> AtualizarItensPedido(int id, ItensPedido itensPedido)
+        [Route("AtualizarItensPedido")]
+        public async Task<ActionResult> AtualizarItensPedido([FromBody] ItensPedidoAtualizar itensPedidoAtualizar)
         {
             try
             {
-                itensPedido.Id = id;
-                await _itensPedidoAplicacao.AtualizarItensPedido(itensPedido);
-                return Ok("Item do pedido atualizado com sucesso!");
+                var itemDominio = new ItensPedido()
+                {
+                    Id = itensPedidoAtualizar.Id,
+                    PedidoId = itensPedidoAtualizar.PedidoId,
+                    ProdutoId = itensPedidoAtualizar.ProdutoId,
+                    Quantidade = itensPedidoAtualizar.Quantidade,
+                    PrecoUnitario = itensPedidoAtualizar.PrecoUnitario
+                };
+                await _itensPedidoAplicacao.AtualizarItensPedido(itemDominio);
+
+                return Ok($"Item do pedido atualizado com sucesso!\nId: {itemDominio.Id}\nPedidoId: {itemDominio.PedidoId}\nProdutoId: {itemDominio.ProdutoId}\nQuantidade: {itemDominio.Quantidade}\nPrecoUnitario: {itemDominio.PrecoUnitario}");
             }
             catch (Exception ex)
             {
@@ -73,11 +114,26 @@ namespace ProjetoLoja.API.Controller
             try
             {
                 await _itensPedidoAplicacao.ExcluirItensPedido(id);
-                return Ok("Item do pedido excluído com sucesso!");
+                return Ok($"Item do pedido excluido com sucesso! Id: {id}");
             }
             catch (Exception ex)
             {
                 return BadRequest($"Erro ao excluir item do pedido: {ex.Message}");
+            }
+        }
+
+        [HttpPut]
+        [Route("AtivarItensPedido/{id}")]
+        public async Task<ActionResult> AtivarItensPedido(int id)
+        {
+            try
+            {
+                await _itensPedidoAplicacao.AtivarItensPedido(id);
+                return Ok($"Item do pedido ativado com sucesso! Id: {id}");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro ao ativar item do pedido: {ex.Message}");
             }
         }
     }

@@ -57,5 +57,15 @@ namespace ProjetoLoja.Aplicacao
         {
             return await _pedidoRepositorio.ObterTodosPedidos();
         }
+
+        public async Task AtivarPedido(int id)
+        {
+            var pedidoExistente = await _pedidoRepositorio.ObterPedidoPorId(id);
+            if (pedidoExistente == null)
+                throw new Exception("Pedido não encontrado");
+
+            pedidoExistente.Restaurar();
+            await _pedidoRepositorio.AtualizarPedido(pedidoExistente);
+        }
     }
 }

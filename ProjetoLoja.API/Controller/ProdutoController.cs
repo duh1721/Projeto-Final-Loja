@@ -23,8 +23,26 @@ namespace ProjetoLoja.API.Controller
         [Route("ObterProdutos")]
         public async Task<ActionResult<IEnumerable<Produto>>> ObterTodosProdutos()
         {
-            var produtos = await _produtoAplicacao.ObterTodosProdutos();
-            return Ok(produtos);
+            try
+            {
+                var produtos = await _produtoAplicacao.ObterTodosProdutos();
+                
+                var produtosResposta = produtos.Select(produto => new ProdutoResposta()
+                {
+                    Id = produto.Id,
+                    Nome = produto.Nome,
+                    Preco = produto.Preco,
+                    Quantidade = produto.Quantidade,
+                    Descricao = produto.Descricao,
+                    Ativo = produto.Ativo,
+                    TipoProdutoId = produto.TipoProdutoId
+                }).ToList();
+                return Ok(produtosResposta);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro ao obter produtos: {ex.Message}");
+            }
         }
 
         [HttpGet]
@@ -52,7 +70,7 @@ namespace ProjetoLoja.API.Controller
                     Quantidade = produtoCriar.Quantidade,
                     Descricao = produtoCriar.Descricao,
                     Ativo = produtoCriar.Ativo,
-                    TipoProdutoId = produtoCriar.TipoProdutoId
+                    TipoProdutoId = produtoCriar.TipoProdutoId,
                 };
 
                 var produtoId = await _produtoAplicacao.AdicionarProduto(produtoDominio);
@@ -78,7 +96,8 @@ namespace ProjetoLoja.API.Controller
                     Quantidade = produto.Quantidade,
                     Descricao = produto.Descricao,
                     Ativo = produto.Ativo,
-                    TipoProdutoId = produto.TipoProdutoId
+                    TipoProdutoId = produto.TipoProdutoId,
+                    TipoProduto = new TipoProduto { Nome = "" }
                 };
                 await _produtoAplicacao.AtualizarProduto(produtoDominio);
 

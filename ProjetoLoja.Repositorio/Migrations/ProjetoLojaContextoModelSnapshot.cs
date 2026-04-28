@@ -196,6 +196,9 @@ namespace ProjetoLoja.Repositorio.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("Ativo");
 
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Descricao")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Descricao");

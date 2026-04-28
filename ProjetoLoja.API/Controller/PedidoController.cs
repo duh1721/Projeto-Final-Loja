@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjetoLoja.Dominio.Entidades;
 using ProjetoLoja.Aplicacao.Interfaces;
+using ProjetoLoja.API.Models.Pedidos.Requisicao;
+using ProjetoLoja.API.Models.Pedidos.Resposta;
 
 namespace ProjetoLoja.API.Controller
 {
@@ -19,8 +21,27 @@ namespace ProjetoLoja.API.Controller
         [Route("ObterPedidos")]
         public async Task<ActionResult<IEnumerable<Pedido>>> ObterTodosPedidos()
         {
-            var pedidos = await _pedidoAplicacao.ObterTodosPedidos();
-            return Ok(pedidos);
+            try
+            {
+                var pedidos = await _pedidoAplicacao.ObterTodosPedidos();
+
+                var pedidosResposta = pedidos.Select(pedido => new PedidoResposta()
+                {
+                    Id = pedido.Id,
+                    ClienteId = pedido.ClienteId,
+                    EnderecoId = pedido.EnderecoId,
+                    DataPedido = pedido.DataPedido,
+                    ValorTotal = pedido.ValorTotal
+                }).ToList();
+                return Ok(pedidosResposta);
+
+            }catch (Exception ex)
+            {
+                return BadRequest($"Erro ao obter pedidos: {ex.Message}");
+            }
+            
+            
+    
         }
 
         [HttpGet]
@@ -37,11 +58,17 @@ namespace ProjetoLoja.API.Controller
 
         [HttpPost]
         [Route("CriarPedido")]
-        public async Task<ActionResult> CriarPedido([FromBody] Pedido pedido)
+        public async Task<ActionResult> CriarPedido([FromBody] PedidoCriar pedidoCriar)
         {
             try
             {
-                var pedidoId = await _pedidoAplicacao.AdicionarPedido(pedido);
+                var novoPedido = new Pedido()
+                {
+                    ClienteId = pedidoCriar.ClienteId,
+                    EnderecoId = pedidoCriar.EnderecoId
+                };
+
+                var pedidoId = await _pedidoAplicacao.AdicionarPedido(novoPedido);
                 return Ok($"Pedido adicionado com sucesso! Id: {pedidoId}");
             }
             catch (Exception ex)
@@ -51,14 +78,22 @@ namespace ProjetoLoja.API.Controller
         }
 
         [HttpPut]
-        [Route("AtualizarPedido/{id}")]
-        public async Task<ActionResult> AtualizarPedido(int id, Pedido pedido)
+        [Route("AtualizarPedido")]
+        public async Task<ActionResult> AtualizarPedido([FromBody] PedidoAtualizar pedidoAtualizar)
         {
             try
             {
-                pedido.Id = id;
-                await _pedidoAplicacao.AtualizarPedido(pedido);
-                return Ok("Pedido atualizado com sucesso!");
+                var pedidoDominio = new Pedido()
+                {
+                    Id = pedidoAtualizar.Id,
+                    ClienteId = pedidoAtualizar.ClienteId,
+                    EnderecoId = pedidoAtualizar.EnderecoId,
+                    DataPedido = pedidoAtualizar.DataPedido,
+                    ValorTotal = pedidoAtualizar.ValorTotal
+                };
+                await _pedidoAplicacao.AtualizarPedido(pedidoDominio);
+
+                return Ok($"Pedido atualizado com sucesso!\nId: {pedidoDominio.Id}\nClienteId: {pedidoDominio.ClienteId}\nEnderecoId: {pedidoDominio.EnderecoId}\nDataPedido: {pedidoDominio.DataPedido}\nValorTotal: {pedidoDominio.ValorTotal}");
             }
             catch (Exception ex)
             {
@@ -73,11 +108,26 @@ namespace ProjetoLoja.API.Controller
             try
             {
                 await _pedidoAplicacao.ExcluirPedido(id);
-                return Ok("Pedido excluído com sucesso!");
+                return Ok($"Pedido excluido com sucesso! Id: {id}");
             }
             catch (Exception ex)
             {
                 return BadRequest($"Erro ao excluir pedido: {ex.Message}");
+            }
+        }
+
+        [HttpPut]
+        [Route("AtivarPedido/{id}")]
+        public async Task<ActionResult> AtivarPedido(int id)
+        {
+            try
+            {
+                await _pedidoAplicacao.AtivarPedido(id);
+                return Ok($"Pedido ativado com sucesso! Id: {id}");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro ao ativar pedido: {ex.Message}");
             }
         }
     }
