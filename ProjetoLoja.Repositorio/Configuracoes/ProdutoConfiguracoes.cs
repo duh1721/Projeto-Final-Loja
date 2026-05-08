@@ -13,7 +13,7 @@ namespace ProjetoLoja.Repositorio.Configuracao
 
             builder.Property(nameof(Produto.Id)).HasColumnName("ProdutoId");
             builder.Property(nameof(Produto.Nome)).HasColumnName("Nome").IsRequired(true);
-            builder.Property(nameof(Produto.Preco)).HasColumnName("Preco").IsRequired(true);
+            builder.Property(nameof(Produto.Preco)).HasPrecision(18, 2).HasColumnName("Preco").IsRequired(true);
             builder.Property(nameof(Produto.Quantidade)).HasColumnName("Quantidade").IsRequired(true);
             builder.Property(nameof(Produto.Descricao)).HasColumnName("Descricao").IsRequired(false);
             builder.Property(nameof(Produto.Ativo)).HasColumnName("Ativo").IsRequired(true);

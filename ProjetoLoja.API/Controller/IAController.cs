@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjetoLoja.Servicos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProjetoLoja.API.Controller
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class IAController : ControllerBase
     {
         private readonly IIAService _iaService;

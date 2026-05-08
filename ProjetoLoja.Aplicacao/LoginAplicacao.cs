@@ -1,6 +1,6 @@
 using ProjetoLoja.Dominio.Entidades;
 using ProjetoLoja.Repositorio.Interfaces;
-
+using ProjetoLoja.Aplicacao.Interfaces;
 namespace ProjetoLoja.Aplicacao
 {
     public class LoginAplicacao : ILoginCliente

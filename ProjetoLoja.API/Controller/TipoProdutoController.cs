@@ -3,11 +3,13 @@ using ProjetoLoja.Dominio.Entidades;
 using ProjetoLoja.Aplicacao.Interfaces;
 using ProjetoLoja.API.Models.TipoProduto.Requisicao;
 using ProjetoLoja.API.Models.TipoProduto.Resposta;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProjetoLoja.API.Controller
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class TipoProdutoController : ControllerBase
     {
         private readonly ITipoProdutoAplicacao _tipoProdutoAplicacao;

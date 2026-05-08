@@ -4,12 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using ProjetoLoja.API.Models.Requisicao;
 using ProjetoLoja.API.Models.Resposta;
 using ProjetoLoja.Aplicacao.Interfaces;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProjetoLoja.API.Controller
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class ProdutoController : ControllerBase
     {
         private readonly IProdutoAplicacao _produtoAplicacao;

@@ -14,7 +14,7 @@ namespace ProjetoLoja.Repositorio.Configuracao
             builder.Property(nameof(ItensPedido.PedidoId)).HasColumnName("PedidoId").IsRequired(true);
             builder.Property(nameof(ItensPedido.ProdutoId)).HasColumnName("ProdutoId").IsRequired(true);
             builder.Property(nameof(ItensPedido.Quantidade)).HasColumnName("Quantidade").IsRequired(true);
-            builder.Property(nameof(ItensPedido.PrecoUnitario)).HasColumnName("PrecoUnitario").IsRequired(true);
+            builder.Property(nameof(ItensPedido.PrecoUnitario)).HasPrecision(18, 2).HasColumnName("PrecoUnitario").IsRequired(true);
             builder.Property(nameof(ItensPedido.Ativo)).HasColumnName("Ativo").IsRequired(true);
 
             builder.HasOne(p => p.Pedido).WithMany(i => i.ItensPedido).HasForeignKey(p => p.PedidoId);

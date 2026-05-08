@@ -4,16 +4,18 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
-using ProjetoLoja.Aplicacao;
+using ProjetoLoja.Aplicacao.Interfaces;
 using Microsoft.Extensions.Configuration;
 using ProjetoLoja.API.Models.Login.Resposta;
 using Microsoft.AspNetCore.Authorization;
+using ProjetoLoja.API.Models.Login.Requisicao;
+
 
 namespace ProjetoLoja.API.Controller
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize]
+    [AllowAnonymous]
     public class LoginController : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -30,7 +32,14 @@ namespace ProjetoLoja.API.Controller
 
         {
             var handler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["JwtKey"]);
+            var jwtKey = _configuration["Jwt:Key"];
+
+            if (string.IsNullOrEmpty(jwtKey))
+            {
+                throw new Exception("Jwt:Key não configurada.");
+            }
+
+            var key = Encoding.ASCII.GetBytes(jwtKey);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -52,8 +61,7 @@ namespace ProjetoLoja.API.Controller
 
         [HttpPost]
         [Route("Login")]
-        [AllowAnonymous]
-        public async Task<ActionResult> Login([FromBody] CriarLogin login)
+        public async Task<ActionResult> Login([FromBody] LoginCliente login)
         {
             try
             {
@@ -66,7 +74,8 @@ namespace ProjetoLoja.API.Controller
                     Id = usuario.Id,
                     Nome = usuario.Nome,
                     Email = usuario.Email,
-                    Token = token
+                    Token = token,
+                    Senha = usuario.Senha
                 };
                 return Ok(resposta);
             }

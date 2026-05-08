@@ -13,7 +13,7 @@ namespace ProjetoLoja.Repositorio.Configuracao
             builder.Property(nameof(Pedido.Id)).HasColumnName("PedidoId");
             builder.Property(nameof(Pedido.ClienteId)).HasColumnName("ClienteId").IsRequired(true);
             builder.Property(nameof(Pedido.EnderecoId)).HasColumnName("EnderecoId").IsRequired(true);
-            builder.Property(nameof(Pedido.ValorTotal)).HasColumnName("ValorTotal").IsRequired(true);
+            builder.Property(nameof(Pedido.ValorTotal)).HasPrecision(18, 2).HasColumnName("ValorTotal").IsRequired(true);
             builder.Property(nameof(Pedido.DataPedido)).HasColumnName("Data").IsRequired(true);
             builder.Property(nameof(Pedido.Ativo)).HasColumnName("Ativo").IsRequired(true);
 

@@ -3,11 +3,13 @@ using ProjetoLoja.Dominio.Entidades;
 using ProjetoLoja.Aplicacao.Interfaces;
 using ProjetoLoja.API.Models.Pedidos.Requisicao;
 using ProjetoLoja.API.Models.Pedidos.Resposta;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProjetoLoja.API.Controller
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class PedidoController : ControllerBase
     {
         private readonly IPedidoAplicacao _pedidoAplicacao;

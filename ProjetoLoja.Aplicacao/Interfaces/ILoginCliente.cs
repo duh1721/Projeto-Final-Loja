@@ -1,6 +1,6 @@
 using ProjetoLoja.Dominio.Entidades;
 
-namespace ProjetoLoja.Aplicacao
+namespace ProjetoLoja.Aplicacao.Interfaces
 {
     public interface ILoginCliente
     {

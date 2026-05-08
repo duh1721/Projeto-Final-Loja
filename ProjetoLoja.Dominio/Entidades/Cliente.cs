@@ -8,6 +8,7 @@ namespace ProjetoLoja.Dominio.Entidades
         public string Telefone { get; set; }
         public string Senha { get; set; }
         public bool Ativo { get; set; }
+        public Login Login { get; set; }
 
         public ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
         public ICollection<Endereco> Enderecos { get; set; } = new List<Endereco>();

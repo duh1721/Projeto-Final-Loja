@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ProjetoLoja.Repositorio.Migrations
 {
     [DbContext(typeof(ProjetoLojaContexto))]
-    partial class ProjetoLojaContextoModelSnapshot : ModelSnapshot
+    [Migration("20260508224726_CriacaoTabelaLogin")]
+    partial class CriacaoTabelaLogin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,7 +131,6 @@ namespace ProjetoLoja.Repositorio.Migrations
                         .HasColumnName("PedidoId");
 
                     b.Property<decimal>("PrecoUnitario")
-                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)")
                         .HasColumnName("PrecoUnitario");
 
@@ -206,7 +208,6 @@ namespace ProjetoLoja.Repositorio.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("ValorTotal")
-                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)")
                         .HasColumnName("ValorTotal");
 
@@ -247,7 +248,6 @@ namespace ProjetoLoja.Repositorio.Migrations
                         .HasColumnName("Nome");
 
                     b.Property<decimal>("Preco")
-                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)")
                         .HasColumnName("Preco");
 

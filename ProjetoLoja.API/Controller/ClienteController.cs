@@ -10,7 +10,6 @@ namespace ProjetoLoja.API.Controller
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize]
     public class ClienteController : ControllerBase
     {
         private readonly IClienteAplicacao _clienteAplicacao;

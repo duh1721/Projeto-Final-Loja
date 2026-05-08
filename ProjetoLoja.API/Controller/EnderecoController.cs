@@ -3,12 +3,14 @@ using ProjetoLoja.Dominio.Entidades;
 using ProjetoLoja.Aplicacao.Interfaces;
 using ProjetoLoja.API.Models.Enderecos.Requisicao;
 using ProjetoLoja.API.Models.Enderecos.Resposta;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace ProjetoLoja.API.Controller
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class EnderecoController : ControllerBase
     {
         private readonly IEnderecoAplicacao _enderecoAplicacao;
