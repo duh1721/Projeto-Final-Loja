@@ -10,7 +10,7 @@ public class ProjetoLojaContexto : DbContext
 
     public DbSet<Produto> Produtos { get; set; }
     public DbSet<Clientes> Clientes { get; set; }
-    public DbSet<Enderecos> Enderecos { get; set; }
+    public DbSet<Endereco> Enderecos { get; set; }
     public DbSet<Pedido> Pedidos { get; set; }
     public DbSet<ItensPedido> ItensPedido { get; set; }
     public DbSet<TipoProduto> TiposProduto { get; set; }

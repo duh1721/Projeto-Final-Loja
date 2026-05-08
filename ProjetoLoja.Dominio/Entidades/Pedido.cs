@@ -6,7 +6,7 @@ namespace ProjetoLoja.Dominio.Entidades
         public required int ClienteId { get; set; }
         public Clientes Cliente { get; set; }
         public required int EnderecoId { get; set; }
-        public Enderecos Endereco { get; set; }
+        public Endereco Endereco { get; set; }
         public DateTime DataPedido { get; set; }
         public decimal ValorTotal { get; set; }
         public bool Ativo { get; set; }

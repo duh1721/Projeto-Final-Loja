@@ -10,14 +10,14 @@ namespace ProjetoLoja.Repositorio
         {
         }
 
-        public async Task<int> Salvar(Enderecos endereco)
+        public async Task<int> Salvar(Endereco endereco)
         {
             _contexto.Enderecos.Add(endereco);
             await _contexto.SaveChangesAsync();
             return endereco.Id;
         }
 
-        public async Task AtualizarEndereco(Enderecos endereco)
+        public async Task AtualizarEndereco(Endereco endereco)
         {
             _contexto.Enderecos.Update(endereco);
             await _contexto.SaveChangesAsync();
@@ -33,12 +33,15 @@ namespace ProjetoLoja.Repositorio
             }
         }
 
-        public async Task<Enderecos?> ObterEnderecoPorId(int id)
+        public async Task<Endereco> ObterEnderecoPorId(int id)
         {
-            return await _contexto.Enderecos.FirstOrDefaultAsync(e => e.Id == id);
+            var endereco = await _contexto.Enderecos.FirstOrDefaultAsync(e => e.Id == id);
+            if (endereco == null)
+                throw new InvalidOperationException("Endereço não encontrado.");
+            return endereco;
         }
 
-        public async Task<IEnumerable<Enderecos?>> ObterTodosEnderecos()
+        public async Task<IEnumerable<Endereco>> ObterTodosEnderecos()
         {
             return await _contexto.Enderecos.ToListAsync();
         }

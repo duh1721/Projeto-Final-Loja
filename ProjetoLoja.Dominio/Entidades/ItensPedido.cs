@@ -3,7 +3,7 @@ namespace ProjetoLoja.Dominio.Entidades
     public class ItensPedido
     {
         public int Id { get; set; }
-        public required int PedidoId { get; set; }
+        public int PedidoId { get; set; }
         public Pedido Pedido { get; set; }
         public required int ProdutoId { get; set; }
         public Produto Produto { get; set; }

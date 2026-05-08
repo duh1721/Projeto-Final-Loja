@@ -6,18 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProjetoLoja.Repositorio.Migrations
 {
     /// <inheritdoc />
-    public partial class NovasTabelasdobanco : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "TipoProdutoId",
-                table: "Produtos",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
-
             migrationBuilder.CreateTable(
                 name: "Clientes",
                 columns: table => new
@@ -35,25 +28,6 @@ namespace ProjetoLoja.Repositorio.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Enderecos",
-                columns: table => new
-                {
-                    EnderecoId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Rua = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Numero = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Bairro = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Cidade = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Cep = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Ativo = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Enderecos", x => x.EnderecoId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TipoProduto",
                 columns: table => new
                 {
@@ -65,6 +39,57 @@ namespace ProjetoLoja.Repositorio.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TipoProduto", x => x.TipoProdutoId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Enderecos",
+                columns: table => new
+                {
+                    EnderecoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Rua = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Numero = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Bairro = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cidade = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cep = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Ativo = table.Column<bool>(type: "bit", nullable: false),
+                    ClienteId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Enderecos", x => x.EnderecoId);
+                    table.ForeignKey(
+                        name: "FK_Enderecos_Clientes_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "Clientes",
+                        principalColumn: "ClientId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Produtos",
+                columns: table => new
+                {
+                    ProdutoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Preco = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Quantidade = table.Column<int>(type: "int", nullable: false),
+                    Ativo = table.Column<bool>(type: "bit", nullable: false),
+                    TipoProdutoId = table.Column<int>(type: "int", nullable: false),
+                    DataCriacao = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Produtos", x => x.ProdutoId);
+                    table.ForeignKey(
+                        name: "FK_Produtos_TipoProduto_TipoProdutoId",
+                        column: x => x.TipoProdutoId,
+                        principalTable: "TipoProduto",
+                        principalColumn: "TipoProdutoId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,7 +119,7 @@ namespace ProjetoLoja.Repositorio.Migrations
                         column: x => x.EnderecoId,
                         principalTable: "Enderecos",
                         principalColumn: "EnderecoId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Pedidos_Produtos_ProdutoId",
                         column: x => x.ProdutoId,
@@ -132,9 +157,9 @@ namespace ProjetoLoja.Repositorio.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Produtos_TipoProdutoId",
-                table: "Produtos",
-                column: "TipoProdutoId");
+                name: "IX_Enderecos_ClienteId",
+                table: "Enderecos",
+                column: "ClienteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ItensPedido_PedidoId",
@@ -161,44 +186,32 @@ namespace ProjetoLoja.Repositorio.Migrations
                 table: "Pedidos",
                 column: "ProdutoId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Produtos_TipoProduto_TipoProdutoId",
+            migrationBuilder.CreateIndex(
+                name: "IX_Produtos_TipoProdutoId",
                 table: "Produtos",
-                column: "TipoProdutoId",
-                principalTable: "TipoProduto",
-                principalColumn: "TipoProdutoId",
-                onDelete: ReferentialAction.Cascade);
+                column: "TipoProdutoId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Produtos_TipoProduto_TipoProdutoId",
-                table: "Produtos");
-
             migrationBuilder.DropTable(
                 name: "ItensPedido");
-
-            migrationBuilder.DropTable(
-                name: "TipoProduto");
 
             migrationBuilder.DropTable(
                 name: "Pedidos");
 
             migrationBuilder.DropTable(
+                name: "Enderecos");
+
+            migrationBuilder.DropTable(
+                name: "Produtos");
+
+            migrationBuilder.DropTable(
                 name: "Clientes");
 
             migrationBuilder.DropTable(
-                name: "Enderecos");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Produtos_TipoProdutoId",
-                table: "Produtos");
-
-            migrationBuilder.DropColumn(
-                name: "TipoProdutoId",
-                table: "Produtos");
+                name: "TipoProduto");
         }
     }
 }

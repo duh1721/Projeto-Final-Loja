@@ -21,20 +21,38 @@ namespace ProjetoLoja.API.Controller
         [Route("ObterTiposProduto")]
         public async Task<ActionResult<IEnumerable<TipoProduto>>> ObterTodosTiposProduto()
         {
-            var tiposProduto = await _tipoProdutoAplicacao.ObterTodosTiposProduto();
-            return Ok(tiposProduto);
+            try
+            {
+                var tiposProduto = await _tipoProdutoAplicacao.ObterTodosTiposProduto();
+
+                var tiposProdutoResposta = tiposProduto.Select(tipo => new TipoProdutoResposta()
+                {
+                    Id = tipo.Id,
+                    Nome = tipo.Nome,
+                    Ativo = tipo.Ativo
+                }).ToList();
+                return Ok(tiposProdutoResposta);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro ao obter tipos de produto: {ex.Message}");
+            }
         }
 
         [HttpGet]
         [Route("ObterTipoProdutoPorId/{id}")]
         public async Task<ActionResult<TipoProduto>> ObterTipoProdutoPorId(int id)
         {
-            var tipoProduto = await _tipoProdutoAplicacao.ObterTipoProdutoPorId(id);
-            if (tipoProduto == null)
+            try
             {
-                return NotFound();
+                var tipoProduto = await _tipoProdutoAplicacao.ObterTipoProdutoPorId(id);
+                return Ok(tipoProduto);
             }
-            return Ok(tipoProduto);
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro ao obter tipo de produto: {ex.Message}");
+            }
+            
         }
 
         [HttpPost]

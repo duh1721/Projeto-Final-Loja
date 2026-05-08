@@ -33,14 +33,33 @@ namespace ProjetoLoja.Repositorio
             }
         }
 
-        public async Task<Clientes?> ObterClientePorId(int id)
+        public async Task<Clientes> ObterClientePorId(int id)
         {
-            return await _contexto.Clientes.FirstOrDefaultAsync(c => c.Id == id);
+            var cliente = await _contexto.Clientes.FirstOrDefaultAsync(c => c.Id == id);
+            if (cliente == null)
+                throw new InvalidOperationException("Cliente não encontrado.");
+            return cliente;
+        }
+        
+        public async Task<Clientes> ObterPorNome(string nome)
+        {
+            var cliente = await _contexto.Clientes.FirstOrDefaultAsync(c => c.Nome == nome);
+            if (cliente == null)
+                throw new InvalidOperationException("Cliente não encontrado.");
+            return cliente;
         }
 
-        public async Task<IEnumerable<Clientes?>> ObterTodosClientes()
+        public async Task<IEnumerable<Clientes>> ObterTodosClientes()
         {
             return await _contexto.Clientes.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Clientes>> ObterPorEmail(string email)
+        {
+            return await _contexto.Clientes
+                .Where(c => c.Email == email)
+                .Where(c => c.Ativo == true)
+                .ToListAsync();
         }
     }
 }

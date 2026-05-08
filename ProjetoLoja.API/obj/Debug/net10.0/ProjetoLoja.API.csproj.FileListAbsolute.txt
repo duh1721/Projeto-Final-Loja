@@ -167,3 +167,6 @@ C:\Projeto Final\Projeto Final Loja\ProjetoLoja.API\obj\Debug\net10.0\ProjetoLoj
 C:\Projeto Final\Projeto Final Loja\ProjetoLoja.API\obj\Debug\net10.0\ProjetoLoja.API.genruntimeconfig.cache
 C:\Projeto Final\Projeto Final Loja\ProjetoLoja.API\obj\Debug\net10.0\ref\ProjetoLoja.API.dll
 C:\Projeto Final\Projeto Final Loja\ProjetoLoja.API\obj\Debug\net10.0\ProjetoLoja.API.sourcelink.json
+C:\Projeto Final\Projeto Final Loja\ProjetoLoja.API\bin\Debug\net10.0\package-lock.json
+C:\Projeto Final\Projeto Final Loja\ProjetoLoja.API\bin\Debug\net10.0\package.json
+C:\Projeto Final\Projeto Final Loja\ProjetoLoja.API\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

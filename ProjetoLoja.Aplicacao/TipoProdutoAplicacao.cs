@@ -44,7 +44,7 @@ namespace ProjetoLoja.Aplicacao
             await _tipoProdutoRepositorio.AtualizarTipoProduto(tipoProdutoExistente);
         }
 
-        public async Task<TipoProduto?> ObterTipoProdutoPorId(int id)
+        public async Task<TipoProduto> ObterTipoProdutoPorId(int id)
         {
             var tipoProdutoExistente = await _tipoProdutoRepositorio.ObterTipoProdutoPorId(id);
             if (tipoProdutoExistente == null)
@@ -53,7 +53,7 @@ namespace ProjetoLoja.Aplicacao
             return tipoProdutoExistente;
         }
 
-        public async Task<IEnumerable<TipoProduto?>> ObterTodosTiposProduto()
+        public async Task<IEnumerable<TipoProduto>> ObterTodosTiposProduto()
         {
             return await _tipoProdutoRepositorio.ObterTodosTiposProduto();
         }

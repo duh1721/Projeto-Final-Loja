@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ProjetoLoja.Repositorio.Migrations
 {
     [DbContext(typeof(ProjetoLojaContexto))]
-    [Migration("20260424230446_NovasTabelasdobanco")]
-    partial class NovasTabelasdobanco
+    [Migration("20260505124818_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,7 +57,7 @@ namespace ProjetoLoja.Repositorio.Migrations
                     b.ToTable("Clientes", (string)null);
                 });
 
-            modelBuilder.Entity("ProjetoLoja.Dominio.Entidades.Enderecos", b =>
+            modelBuilder.Entity("ProjetoLoja.Dominio.Entidades.Endereco", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -85,6 +85,9 @@ namespace ProjetoLoja.Repositorio.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Cidade");
 
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Estado")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
@@ -101,6 +104,8 @@ namespace ProjetoLoja.Repositorio.Migrations
                         .HasColumnName("Rua");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
 
                     b.ToTable("Enderecos", (string)null);
                 });
@@ -199,6 +204,9 @@ namespace ProjetoLoja.Repositorio.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("Ativo");
 
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Descricao")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Descricao");
@@ -250,6 +258,17 @@ namespace ProjetoLoja.Repositorio.Migrations
                     b.ToTable("TipoProduto", (string)null);
                 });
 
+            modelBuilder.Entity("ProjetoLoja.Dominio.Entidades.Endereco", b =>
+                {
+                    b.HasOne("ProjetoLoja.Dominio.Entidades.Clientes", "Cliente")
+                        .WithMany("Enderecos")
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
+                });
+
             modelBuilder.Entity("ProjetoLoja.Dominio.Entidades.ItensPedido", b =>
                 {
                     b.HasOne("ProjetoLoja.Dominio.Entidades.Pedido", "Pedido")
@@ -277,10 +296,10 @@ namespace ProjetoLoja.Repositorio.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProjetoLoja.Dominio.Entidades.Enderecos", "Endereco")
+                    b.HasOne("ProjetoLoja.Dominio.Entidades.Endereco", "Endereco")
                         .WithMany("Pedidos")
                         .HasForeignKey("EnderecoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ProjetoLoja.Dominio.Entidades.Produto", null)
@@ -305,10 +324,12 @@ namespace ProjetoLoja.Repositorio.Migrations
 
             modelBuilder.Entity("ProjetoLoja.Dominio.Entidades.Clientes", b =>
                 {
+                    b.Navigation("Enderecos");
+
                     b.Navigation("Pedidos");
                 });
 
-            modelBuilder.Entity("ProjetoLoja.Dominio.Entidades.Enderecos", b =>
+            modelBuilder.Entity("ProjetoLoja.Dominio.Entidades.Endereco", b =>
                 {
                     b.Navigation("Pedidos");
                 });

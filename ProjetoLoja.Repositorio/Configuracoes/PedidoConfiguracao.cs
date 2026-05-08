@@ -18,7 +18,7 @@ namespace ProjetoLoja.Repositorio.Configuracao
             builder.Property(nameof(Pedido.Ativo)).HasColumnName("Ativo").IsRequired(true);
 
                 builder.HasOne(c => c.Cliente).WithMany(p => p.Pedidos).HasForeignKey(c => c.ClienteId);
-                builder.HasOne(e => e.Endereco).WithMany(p => p.Pedidos).HasForeignKey(e => e.EnderecoId);
+                builder.HasOne(e => e.Endereco).WithMany(p => p.Pedidos).HasForeignKey(e => e.EnderecoId).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

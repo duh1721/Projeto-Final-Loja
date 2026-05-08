@@ -13,7 +13,7 @@ namespace ProjetoLoja.Aplicacao
             _enderecoRepositorio = enderecoRepositorio;
         }
 
-        public async Task<int> AdicionarEndereco(Enderecos endereco)
+        public async Task<int> AdicionarEndereco(Endereco endereco)
         {
             if (endereco == null)
                 throw new Exception("Endereço não pode ser nulo");
@@ -21,7 +21,7 @@ namespace ProjetoLoja.Aplicacao
             return await _enderecoRepositorio.Salvar(endereco);
         }
 
-        public async Task AtualizarEndereco(Enderecos endereco)
+        public async Task AtualizarEndereco(Endereco endereco)
         {
             var enderecoExistente = await _enderecoRepositorio.ObterEnderecoPorId(endereco.Id);
 
@@ -49,7 +49,7 @@ namespace ProjetoLoja.Aplicacao
             await _enderecoRepositorio.AtualizarEndereco(enderecoExistente);
         }
 
-        public async Task<Enderecos?> ObterEnderecoPorId(int id)
+        public async Task<Endereco> ObterEnderecoPorId(int id)
         {
             var enderecoExistente = await _enderecoRepositorio.ObterEnderecoPorId(id);
             if (enderecoExistente == null)
@@ -58,7 +58,7 @@ namespace ProjetoLoja.Aplicacao
             return enderecoExistente;
         }
 
-        public async Task<IEnumerable<Enderecos?>> ObterTodosEnderecos()
+        public async Task<IEnumerable<Endereco>> ObterTodosEnderecos()
         {
             return await _enderecoRepositorio.ObterTodosEnderecos();
         }

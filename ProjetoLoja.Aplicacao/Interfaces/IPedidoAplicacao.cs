@@ -4,11 +4,13 @@ namespace ProjetoLoja.Aplicacao.Interfaces
 {
     public interface IPedidoAplicacao
     {
-        Task<IEnumerable<Pedido?>> ObterTodosPedidos();
-        Task<Pedido?> ObterPedidoPorId(int id);
+        Task<IEnumerable<Pedido>> ObterTodosPedidos();
+        Task<Pedido> ObterPedidoPorId(int id);
         Task<int> AdicionarPedido(Pedido pedido);
         Task AtualizarPedido(Pedido pedido);
         Task ExcluirPedido(int id);
         Task AtivarPedido(int id);
+        Task<int> CriarPedido(int clienteId, int enderecoId, List<ItensPedido> itens);
+
     }
 }

@@ -4,10 +4,10 @@ namespace ProjetoLoja.Repositorio.Interfaces
 {
     public interface IEnderecoRepositorio
     {
-        Task<IEnumerable<Enderecos?>> ObterTodosEnderecos();
-        Task<Enderecos?> ObterEnderecoPorId(int id);
-        Task<int> Salvar(Enderecos endereco);
-        Task AtualizarEndereco(Enderecos endereco);
+        Task<IEnumerable<Endereco>> ObterTodosEnderecos();
+        Task<Endereco> ObterEnderecoPorId(int id);
+        Task<int> Salvar(Endereco endereco);
+        Task AtualizarEndereco(Endereco endereco);
         Task ExcluirEndereco(int id);
     }
 }

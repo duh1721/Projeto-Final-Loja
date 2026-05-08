@@ -78,6 +78,8 @@ namespace ProjetoLoja.Aplicacao
             produtoExistente.Restaurar();
             await _produtoRepositorio.AtualizarProduto(produtoExistente);
         }
+
+        
         
         #region util
         private static void ValidarInformacoesProduto(Produto produtos)

@@ -41,6 +41,9 @@
               },
               "C:\\Projeto Final\\Projeto Final Loja\\ProjetoLoja.Repositorio\\ProjetoLoja.Repositorio.csproj": {
                 "projectPath": "C:\\Projeto Final\\Projeto Final Loja\\ProjetoLoja.Repositorio\\ProjetoLoja.Repositorio.csproj"
+              },
+              "C:\\Projeto Final\\Projeto Final Loja\\ProjetoLoja.Servicos\\ProjetoLoja.Servicos.csproj": {
+                "projectPath": "C:\\Projeto Final\\Projeto Final Loja\\ProjetoLoja.Servicos\\ProjetoLoja.Servicos.csproj"
               }
             }
           }
@@ -61,6 +64,10 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[10.0.7, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -71,9 +78,17 @@
               "target": "Package",
               "version": "[10.0.7, )"
             },
+            "Microsoft.OpenApi": {
+              "target": "Package",
+              "version": "[3.5.3, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[10.1.7, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.18.0, )"
             }
           },
           "imports": [
@@ -547,9 +562,6 @@
               },
               "C:\\Projeto Final\\Projeto Final Loja\\ProjetoLoja.Repositorio\\ProjetoLoja.Repositorio.csproj": {
                 "projectPath": "C:\\Projeto Final\\Projeto Final Loja\\ProjetoLoja.Repositorio\\ProjetoLoja.Repositorio.csproj"
-              },
-              "C:\\Projeto Final\\Projeto Final Loja\\ProjetoLoja.Servicos\\ProjetoLoja.Servicos.csproj": {
-                "projectPath": "C:\\Projeto Final\\Projeto Final Loja\\ProjetoLoja.Servicos\\ProjetoLoja.Servicos.csproj"
               }
             }
           }
@@ -1271,6 +1283,18 @@
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[10.0.7, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[10.0.7, )"
+            },
+            "Microsoft.Extensions.Configuration.FileExtensions": {
+              "target": "Package",
+              "version": "[10.0.7, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[10.0.7, )"
             }
           },
           "imports": [
@@ -1596,8 +1620,14 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
+              "C:\\Projeto Final\\Projeto Final Loja\\ProjetoLoja.Aplicacao\\ProjetoLoja.Aplicacao.csproj": {
+                "projectPath": "C:\\Projeto Final\\Projeto Final Loja\\ProjetoLoja.Aplicacao\\ProjetoLoja.Aplicacao.csproj"
+              },
               "C:\\Projeto Final\\Projeto Final Loja\\ProjetoLoja.Dominio\\ProjetoLoja.Dominio.csproj": {
                 "projectPath": "C:\\Projeto Final\\Projeto Final Loja\\ProjetoLoja.Dominio\\ProjetoLoja.Dominio.csproj"
+              },
+              "C:\\Projeto Final\\Projeto Final Loja\\ProjetoLoja.Repositorio\\ProjetoLoja.Repositorio.csproj": {
+                "projectPath": "C:\\Projeto Final\\Projeto Final Loja\\ProjetoLoja.Repositorio\\ProjetoLoja.Repositorio.csproj"
               }
             }
           }

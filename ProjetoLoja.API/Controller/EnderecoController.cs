@@ -20,7 +20,7 @@ namespace ProjetoLoja.API.Controller
 
         [HttpGet]
         [Route("ObterEnderecos")]
-        public async Task<ActionResult<IEnumerable<Enderecos>>> ObterTodosEnderecos()
+        public async Task<ActionResult<IEnumerable<Endereco>>> ObterTodosEnderecos()
         {
             var enderecos = await _enderecoAplicacao.ObterTodosEnderecos();
             return Ok(enderecos);
@@ -28,7 +28,7 @@ namespace ProjetoLoja.API.Controller
 
         [HttpGet]
         [Route("ObterEnderecoPorId/{id}")]
-        public async Task<ActionResult<Enderecos>> ObterEnderecoPorId(int id)
+        public async Task<ActionResult<Endereco>> ObterEnderecoPorId(int id)
         {
             var endereco = await _enderecoAplicacao.ObterEnderecoPorId(id);
             
@@ -51,14 +51,15 @@ namespace ProjetoLoja.API.Controller
         {
             try
             {
-                var novoEndereco = new Enderecos()
+                var novoEndereco = new Endereco()
                 {
                     Rua = endereco.Rua,
                     Numero = endereco.Numero,
                     Bairro = endereco.Bairro,
                     Cidade = endereco.Cidade,
                     Estado = endereco.Estado,
-                    Cep = endereco.Cep
+                    Cep = endereco.Cep,
+                    ClienteId = endereco.ClienteId
                 };
                 await _enderecoAplicacao.AdicionarEndereco(novoEndereco);
                 return Ok("Endereço criado com sucesso!");

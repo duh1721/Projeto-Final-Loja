@@ -4,11 +4,13 @@ using ProjetoLoja.Aplicacao.Interfaces;
 using ProjetoLoja.API.Models.Requisicao;
 using Microsoft.AspNetCore.Http.Connections;
 using ProjetoLoja.API.Models.Resposta;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProjetoLoja.API.Controller
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class ClienteController : ControllerBase
     {
         private readonly IClienteAplicacao _clienteAplicacao;
@@ -16,8 +18,9 @@ namespace ProjetoLoja.API.Controller
         public ClienteController(IClienteAplicacao clienteAplicacao)
         {
             _clienteAplicacao = clienteAplicacao;
+           
         }
-
+        
         [HttpGet]
         [Route("ObterClientes")]
         public async Task<ActionResult<IEnumerable<Clientes>>> ObterTodosClientes()
@@ -40,7 +43,8 @@ namespace ProjetoLoja.API.Controller
                     Id = clienteDominio.Id,
                     Nome = clienteDominio.Nome,
                     Email = clienteDominio.Email,
-                    Telefone = clienteDominio.Telefone
+                    Telefone = clienteDominio.Telefone,
+                    Senha = clienteDominio.Senha
                 };
                 return Ok(clienteResposta);
             }
@@ -62,7 +66,8 @@ namespace ProjetoLoja.API.Controller
                 {
                     Nome = cliente.Nome,
                     Email = cliente.Email,
-                    Telefone = cliente.Telefone
+                    Telefone = cliente.Telefone,
+                    Senha = cliente.Senha
                 };
                 var clienteId = await _clienteAplicacao.AdicionarCliente(clienteDominio);
                 return Ok($"Cliente adicionado com sucesso! Id: {clienteId}");
@@ -85,6 +90,7 @@ namespace ProjetoLoja.API.Controller
                     Nome = cliente.Nome,
                     Email = cliente.Email,
                     Telefone = cliente.Telefone,
+                    Senha = cliente.Senha
                 };
                 await _clienteAplicacao.AtualizarCliente(clienteDominio);
                 return Ok($"Cliente atualizado com sucesso!\nNome: {cliente.Nome}\nEmail: {cliente.Email}\nTelefone: {cliente.Telefone}");

@@ -33,14 +33,14 @@ namespace ProjetoLoja.Repositorio
             }
         }
 
-        public async Task<Pedido?> ObterPedidoPorId(int id)
+        public async Task<Pedido> ObterPedidoPorId(int id)
         {
             return await _contexto.Pedidos
                 .Include(p => p.ItensPedido)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<IEnumerable<Pedido?>> ObterTodosPedidos()
+        public async Task<IEnumerable<Pedido>> ObterTodosPedidos()
         {
             return await _contexto.Pedidos
                 .Include(p => p.ItensPedido)

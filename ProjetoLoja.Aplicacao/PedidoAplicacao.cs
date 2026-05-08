@@ -44,7 +44,7 @@ namespace ProjetoLoja.Aplicacao
             await _pedidoRepositorio.AtualizarPedido(pedidoExistente);
         }
 
-        public async Task<Pedido?> ObterPedidoPorId(int id)
+        public async Task<Pedido> ObterPedidoPorId(int id)
         {
             var pedidoExistente = await _pedidoRepositorio.ObterPedidoPorId(id);
             if (pedidoExistente == null)
@@ -53,7 +53,7 @@ namespace ProjetoLoja.Aplicacao
             return pedidoExistente;
         }
 
-        public async Task<IEnumerable<Pedido?>> ObterTodosPedidos()
+        public async Task<IEnumerable<Pedido>> ObterTodosPedidos()
         {
             return await _pedidoRepositorio.ObterTodosPedidos();
         }
@@ -66,6 +66,21 @@ namespace ProjetoLoja.Aplicacao
 
             pedidoExistente.Restaurar();
             await _pedidoRepositorio.AtualizarPedido(pedidoExistente);
+        }
+
+        public async Task<int> CriarPedido(int clienteId, int enderecoId, List<ItensPedido> itens)
+        {
+            var pedido = new Pedido
+            {
+                ClienteId = clienteId,
+                EnderecoId = enderecoId,
+                DataPedido = DateTime.Now,
+                ItensPedido = itens,
+                ValorTotal = itens.Sum(i => i.PrecoUnitario * i.Quantidade),
+                Ativo = true
+            };
+
+            return await _pedidoRepositorio.Salvar(pedido);
         }
     }
 }

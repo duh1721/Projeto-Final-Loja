@@ -33,12 +33,16 @@ namespace ProjetoLoja.Repositorio
             }
         }
 
-        public async Task<TipoProduto?> ObterTipoProdutoPorId(int id)
+        public async Task<TipoProduto> ObterTipoProdutoPorId(int id)
         {
-            return await _contexto.TiposProduto.FirstOrDefaultAsync(t => t.Id == id);
+            var tipoProduto = await _contexto.TiposProduto.FirstOrDefaultAsync(t => t.Id == id);
+            if (tipoProduto == null)
+                throw new Exception("Tipo de produto não encontrado");
+
+            return tipoProduto;
         }
 
-        public async Task<IEnumerable<TipoProduto?>> ObterTodosTiposProduto()
+        public async Task<IEnumerable<TipoProduto>> ObterTodosTiposProduto()
         {
             return await _contexto.TiposProduto.ToListAsync();
         }

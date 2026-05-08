@@ -4,8 +4,16 @@ using ProjetoLoja.Repositorio.Interfaces;
 using ProjetoLoja.Aplicacao;
 using ProjetoLoja.Aplicacao.Interfaces;
 using System.Text.Json.Serialization;
+using ProjetoLoja.Servicos;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
+
+
 
 var builder = WebApplication.CreateBuilder(args);
+var jwtKey = builder.Configuration["Jwt:Key"];
 
 // Repositorios
 builder.Services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
@@ -23,22 +31,24 @@ builder.Services.AddScoped<IPedidoAplicacao, PedidoAplicacao>();
 builder.Services.AddScoped<IItensPedidoAplicacao, ItensPedidoAplicacao>();
 builder.Services.AddScoped<ITipoProdutoAplicacao, TipoProdutoAplicacao>();
 
-builder.Services.AddDbContext<ProjetoLojaContexto>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddHttpClient<IIAService, IAService>();
 
-builder.Services.AddControllers();
-
-
-
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(jwtKey)),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
     });
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<ProjetoLojaContexto>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
 builder.Services.AddCors(options =>
@@ -51,6 +61,11 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddControllers();
+
+builder.Services.AddEndpointsApiExplorer();
+
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -62,6 +77,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapControllers();
 
