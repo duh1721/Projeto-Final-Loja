@@ -17,16 +17,32 @@ namespace ProjetoLoja.API.Controller
         public ClienteController(IClienteAplicacao clienteAplicacao)
         {
             _clienteAplicacao = clienteAplicacao;
-           
+
         }
-        
+
         [HttpGet]
         [Route("ObterClientes")]
         public async Task<ActionResult<IEnumerable<Clientes>>> ObterTodosClientes()
         {
-            var clientes = await _clienteAplicacao.ObterTodosClientes();
-            return Ok(clientes);
-            
+            try
+            {
+                var clientes = await _clienteAplicacao.ObterTodosClientes();
+                var clientesResposta = clientes.Select(c => new ClienteResposta()
+                {
+                    Id = c.Id,
+                    Nome = c.Nome,
+                    Email = c.Email,
+                    Telefone = c.Telefone,
+                    Senha = c.Senha,
+                    TipoUsuarioId = c.TipoUsuarioId
+                }).ToList();
+                return Ok(clientesResposta);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro ao obter clientes: {ex.Message}");
+            }
+
         }
 
         [HttpGet]
@@ -43,7 +59,8 @@ namespace ProjetoLoja.API.Controller
                     Nome = clienteDominio.Nome,
                     Email = clienteDominio.Email,
                     Telefone = clienteDominio.Telefone,
-                    Senha = clienteDominio.Senha
+                    Senha = clienteDominio.Senha,
+                    TipoUsuarioId = clienteDominio.TipoUsuarioId
                 };
                 return Ok(clienteResposta);
             }
@@ -66,7 +83,9 @@ namespace ProjetoLoja.API.Controller
                     Nome = cliente.Nome,
                     Email = cliente.Email,
                     Telefone = cliente.Telefone,
-                    Senha = cliente.Senha
+                    Senha = cliente.Senha,
+                    TipoUsuarioId = cliente.TipoUsuarioId
+
                 };
                 var clienteId = await _clienteAplicacao.AdicionarCliente(clienteDominio);
                 return Ok($"Cliente adicionado com sucesso! Id: {clienteId}");
@@ -89,10 +108,11 @@ namespace ProjetoLoja.API.Controller
                     Nome = cliente.Nome,
                     Email = cliente.Email,
                     Telefone = cliente.Telefone,
-                    Senha = cliente.Senha
+                    Senha = cliente.Senha,
+                    TipoUsuarioId = cliente.TipoUsuarioId
                 };
                 await _clienteAplicacao.AtualizarCliente(clienteDominio);
-                return Ok($"Cliente atualizado com sucesso!\nNome: {cliente.Nome}\nEmail: {cliente.Email}\nTelefone: {cliente.Telefone}");
+                return Ok($"Cliente atualizado com sucesso!\nNome: {cliente.Nome}\nEmail: {cliente.Email}\nTelefone: {cliente.Telefone}\nTipo de Usuário: {cliente.TipoUsuarioId}");
             }
             catch (Exception ex)
             {

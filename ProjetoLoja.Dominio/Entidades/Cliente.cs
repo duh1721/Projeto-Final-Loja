@@ -7,6 +7,7 @@ namespace ProjetoLoja.Dominio.Entidades
         public string Email { get; set; }
         public string Telefone { get; set; }
         public string Senha { get; set; }
+        public int TipoUsuarioId { get; set; }
         public bool Ativo { get; set; }
         public Login Login { get; set; }
 

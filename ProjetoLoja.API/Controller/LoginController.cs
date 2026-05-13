@@ -15,7 +15,6 @@ namespace ProjetoLoja.API.Controller
 {
     [ApiController]
     [Route("[controller]")]
-    [AllowAnonymous]
     public class LoginController : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -71,9 +70,10 @@ namespace ProjetoLoja.API.Controller
 
                 var resposta = new LoginResposta()
                 {
-                    Id = usuario.Id,
+                    LoginId = usuario.Login.LoginId,
                     Nome = usuario.Nome,
                     Email = usuario.Email,
+                    TipoUsuarioId = usuario.TipoUsuarioId,
                     Token = token,
                     Senha = usuario.Senha
                 };

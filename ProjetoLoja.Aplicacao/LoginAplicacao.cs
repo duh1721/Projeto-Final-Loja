@@ -20,6 +20,7 @@ namespace ProjetoLoja.Aplicacao
             if (string.IsNullOrEmpty(senha))
                 throw new Exception("Senha não pode ser vazia");
 
+
             var usuarioExistente = (await clienteRepositorio.ObterPorEmail(email)).FirstOrDefault();
 
             if (usuarioExistente == null)
@@ -27,6 +28,8 @@ namespace ProjetoLoja.Aplicacao
 
             if (usuarioExistente.Senha != senha)
                 throw new Exception("Senha inválida");
+                
+
                 
 
             return usuarioExistente;
