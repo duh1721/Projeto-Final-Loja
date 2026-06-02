@@ -8,5 +8,7 @@ namespace ProjetoLoja.API.Models.Resposta
         public required string Telefone { get; set; }
         public int TipoUsuarioId { get; set; }
         public required string Senha { get; set; }
+        public bool Ativo { get; set; }
+        
     }
 }

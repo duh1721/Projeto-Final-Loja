@@ -35,7 +35,7 @@ namespace ProjetoLoja.Repositorio
 
         public async Task<Clientes> ObterClientePorId(int id)
         {
-            var cliente = await _contexto.Clientes.FirstOrDefaultAsync(c => c.Id == id);
+            var cliente = await _contexto.Clientes.Include(c => c.Enderecos).FirstOrDefaultAsync(c => c.Id == id);
             if (cliente == null)
                 throw new InvalidOperationException("Cliente não encontrado.");
             return cliente;
@@ -43,7 +43,7 @@ namespace ProjetoLoja.Repositorio
         
         public async Task<Clientes> ObterPorNome(string nome)
         {
-            var cliente = await _contexto.Clientes.FirstOrDefaultAsync(c => c.Nome == nome);
+            var cliente = await _contexto.Clientes.Include(c => c.Enderecos).FirstOrDefaultAsync(c => c.Nome == nome);
             if (cliente == null)
                 throw new InvalidOperationException("Cliente não encontrado.");
             return cliente;
@@ -51,12 +51,13 @@ namespace ProjetoLoja.Repositorio
 
         public async Task<IEnumerable<Clientes>> ObterTodosClientes()
         {
-            return await _contexto.Clientes.ToListAsync();
+            return await _contexto.Clientes.Include(c => c.Enderecos).ToListAsync();
         }
 
         public async Task<IEnumerable<Clientes>> ObterPorEmail(string email)
         {
             return await _contexto.Clientes
+                .Include(c => c.Enderecos) 
                 .Where(c => c.Email == email)
                 .Where(c => c.Ativo == true)
                 .ToListAsync();

@@ -21,7 +21,6 @@ public class ProjetoLojaContexto : DbContext
 
     public DbSet<TipoProduto> TiposProduto { get; set; }
 
-    public DbSet<Login> Logins { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -37,13 +36,5 @@ public class ProjetoLojaContexto : DbContext
 
         modelBuilder.ApplyConfiguration(new TipoProdutoConfiguration());
 
-
-        modelBuilder.Entity<Clientes>()
-            .HasOne(c => c.Login)
-            .WithOne(l => l.Cliente)
-            .HasForeignKey<Login>(l => l.ClienteId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        base.OnModelCreating(modelBuilder);
     }
 }

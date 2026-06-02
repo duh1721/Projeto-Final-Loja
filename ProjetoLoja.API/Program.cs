@@ -11,7 +11,6 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 
 
-
 var builder = WebApplication.CreateBuilder(args);
 var jwtKey = builder.Configuration["Jwt:Key"];
 

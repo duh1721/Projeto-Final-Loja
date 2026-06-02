@@ -5,10 +5,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using ProjetoLoja.Aplicacao.Interfaces;
-using Microsoft.Extensions.Configuration;
-using ProjetoLoja.API.Models.Login.Resposta;
-using Microsoft.AspNetCore.Authorization;
-using ProjetoLoja.API.Models.Login.Requisicao;
+using ProjetoLoja.API.Models.Requisicao;
+using ProjetoLoja.API.Models.Resposta;
 
 
 namespace ProjetoLoja.API.Controller
@@ -19,16 +17,17 @@ namespace ProjetoLoja.API.Controller
     {
         private readonly IConfiguration _configuration;
         private readonly ILoginCliente _loginCliente;
+        private readonly ILogger<LoginController> _logger;
 
-        public LoginController(IConfiguration configuration, ILoginCliente loginCliente)
+        public LoginController(IConfiguration configuration, ILoginCliente loginCliente, ILogger<LoginController> logger)
         {
             _configuration = configuration;
             _loginCliente = loginCliente;
+            _logger = logger;
         }
 
 
         private string GerarToken(Clientes cliente)
-
         {
             var handler = new JwtSecurityTokenHandler();
             var jwtKey = _configuration["Jwt:Key"];
@@ -60,7 +59,7 @@ namespace ProjetoLoja.API.Controller
 
         [HttpPost]
         [Route("Login")]
-        public async Task<ActionResult> Login([FromBody] LoginCliente login)
+        public async Task<ActionResult> Login([FromBody] ClienteLogin login)
         {
             try
             {
@@ -70,20 +69,19 @@ namespace ProjetoLoja.API.Controller
 
                 var resposta = new LoginResposta()
                 {
-                    LoginId = usuario.Login.LoginId,
+                    LoginId = usuario.Id,
                     Nome = usuario.Nome,
                     Email = usuario.Email,
                     TipoUsuarioId = usuario.TipoUsuarioId,
-                    Token = token,
-                    Senha = usuario.Senha
+                    Token = token
                 };
                 return Ok(resposta);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _logger.LogError(ex, "Erro durante o login do usuário.");
+                return Unauthorized(ex.Message);
             }
-
         }
     }
 }

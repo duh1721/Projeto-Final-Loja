@@ -1,11 +1,12 @@
 using ProjetoLoja.Dominio.Entidades;
 using ProjetoLoja.Repositorio.Interfaces;
 using ProjetoLoja.Aplicacao.Interfaces;
+using BCrypt.Net;
 namespace ProjetoLoja.Aplicacao
 {
     public class LoginAplicacao : ILoginCliente
     {
-        private readonly  IClienteRepositorio clienteRepositorio;
+        private readonly IClienteRepositorio clienteRepositorio;
 
         public LoginAplicacao(IClienteRepositorio clienteRepositorio)
         {
@@ -26,11 +27,9 @@ namespace ProjetoLoja.Aplicacao
             if (usuarioExistente == null)
                 throw new Exception("Usuário não encontrado");
 
-            if (usuarioExistente.Senha != senha)
+            if (!BCrypt.Net.BCrypt.Verify(senha, usuarioExistente.Senha))
                 throw new Exception("Senha inválida");
-                
 
-                
 
             return usuarioExistente;
         }

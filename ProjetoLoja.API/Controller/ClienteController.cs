@@ -10,6 +10,7 @@ namespace ProjetoLoja.API.Controller
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class ClienteController : ControllerBase
     {
         private readonly IClienteAplicacao _clienteAplicacao;
@@ -27,6 +28,7 @@ namespace ProjetoLoja.API.Controller
             try
             {
                 var clientes = await _clienteAplicacao.ObterTodosClientes();
+                
                 var clientesResposta = clientes.Select(c => new ClienteResposta()
                 {
                     Id = c.Id,
@@ -34,7 +36,8 @@ namespace ProjetoLoja.API.Controller
                     Email = c.Email,
                     Telefone = c.Telefone,
                     Senha = c.Senha,
-                    TipoUsuarioId = c.TipoUsuarioId
+                    TipoUsuarioId = c.TipoUsuarioId,
+                    Ativo = c.Ativo
                 }).ToList();
                 return Ok(clientesResposta);
             }
@@ -60,7 +63,8 @@ namespace ProjetoLoja.API.Controller
                     Email = clienteDominio.Email,
                     Telefone = clienteDominio.Telefone,
                     Senha = clienteDominio.Senha,
-                    TipoUsuarioId = clienteDominio.TipoUsuarioId
+                    TipoUsuarioId = clienteDominio.TipoUsuarioId,
+                    Ativo = clienteDominio.Ativo
                 };
                 return Ok(clienteResposta);
             }
@@ -83,9 +87,8 @@ namespace ProjetoLoja.API.Controller
                     Nome = cliente.Nome,
                     Email = cliente.Email,
                     Telefone = cliente.Telefone,
-                    Senha = cliente.Senha,
+                    Senha = BCrypt.Net.BCrypt.HashPassword(cliente.Senha),
                     TipoUsuarioId = cliente.TipoUsuarioId
-
                 };
                 var clienteId = await _clienteAplicacao.AdicionarCliente(clienteDominio);
                 return Ok($"Cliente adicionado com sucesso! Id: {clienteId}");
@@ -108,7 +111,7 @@ namespace ProjetoLoja.API.Controller
                     Nome = cliente.Nome,
                     Email = cliente.Email,
                     Telefone = cliente.Telefone,
-                    Senha = cliente.Senha,
+                    Senha = BCrypt.Net.BCrypt.HashPassword(cliente.Senha),
                     TipoUsuarioId = cliente.TipoUsuarioId
                 };
                 await _clienteAplicacao.AtualizarCliente(clienteDominio);

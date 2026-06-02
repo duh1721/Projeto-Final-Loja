@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjetoLoja.Dominio.Enumeradores;
-
+using Microsoft.AspNetCore.Authorization;
 namespace ProjetoLoja.API.Controllers
 {
     [ApiController]
     [Route("TiposUsuario")]
+    [Authorize]
     public class TiposUsuarioController : ControllerBase
     {
         [HttpGet("ListarTiposUsuario")]

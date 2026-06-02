@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjetoLoja.Servicos;
 using Microsoft.AspNetCore.Authorization;
-
 namespace ProjetoLoja.API.Controller
 {
     [ApiController]
@@ -18,10 +17,15 @@ namespace ProjetoLoja.API.Controller
 
         [HttpPost]
         [Route("Perguntar")]
-        public async Task<ActionResult<string>> Perguntar([FromBody] string pergunta, [FromQuery] string usuarioId)
+        public async Task<ActionResult<string>> Perguntar([FromBody] string pergunta)
         {
             try
             {
+                var usuarioId = User.FindFirst("Id")?.Value;
+
+                if (string.IsNullOrEmpty(usuarioId))
+                    return Unauthorized("Token inválido.");
+
                 var resposta = await _iaService.Perguntar(pergunta, usuarioId);
                 return Ok(resposta);
             }

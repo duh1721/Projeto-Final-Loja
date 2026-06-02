@@ -1,6 +1,7 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.Configuration;
 using ProjetoLoja.Aplicacao.Interfaces;
 using ProjetoLoja.Repositorio.Interfaces;
@@ -48,6 +49,24 @@ namespace ProjetoLoja.Servicos
 
             if (_conversas[usuarioId].Count == 0)
             {
+                string infoEndereco = "O cliente não tem endereço cadastrado. Peça os dados antes de finalizar o pedido.";
+
+                if (int.TryParse(usuarioId, out int clienteId))
+                {
+                    var cliente = await _clienteRepositorio.ObterClientePorId(clienteId);
+                    var endereco = cliente?.Enderecos?.FirstOrDefault();
+
+                    if (endereco != null)
+                    {
+                        infoEndereco = $"O cliente JÁ TEM endereço cadastrado: " +
+                                       $"Nome: {cliente.Nome}, " +
+                                       $"Rua {endereco.Rua}, Nº {endereco.Numero}, " +
+                                       $"Bairro {endereco.Bairro}, {endereco.Cidade} - " +
+                                       $"{endereco.Estado}, CEP: {endereco.Cep}. " +
+                                       $"Use este endereço automaticamente. NÃO peça endereço novamente.";
+                    }
+                }
+
                 _conversas[usuarioId].Add(new
                 {
                     role = "system",
@@ -56,8 +75,9 @@ namespace ProjetoLoja.Servicos
                               $"Peça dados faltantes. " +
                               $"Não invente produtos que não existem no banco de dados. " +
                               $"Só gere JSON quando tiver todos os dados necessários. " +
-                              $"Formato JSON: {{\"acao\": \"criar_pedido\", \"produto\": \"nome\", \"quantidade\": 1, \"cliente\": \"nome\", \"rua\": \"rua\", \"numero\": \"numero\", \"cidade\": \"cidade\", \"bairro\": \"bairro\", \"cep\": \"cep\", \"estado\": \"estado\"}}. " +
-                              $"Produtos disponíveis: {listaProdutos}"
+                              $"Formato JSON: {{\"acao\": \"criar_pedido\", \"produto\": \"nome\", \"quantidade\": 1, \"cliente\": \"nome\", \"rua\": \"rua\", \"numero\": \"123\", \"cidade\": \"cidade\", \"bairro\": \"bairro\", \"cep\": \"00000-000\", \"estado\": \"SP\"}}. " +
+                              $"Produtos disponíveis: {listaProdutos}. " +
+                              $"{infoEndereco}"
                 });
             }
 
@@ -94,18 +114,16 @@ namespace ProjetoLoja.Servicos
                 .GetProperty("content")
                 .GetString() ?? "";
 
-            
             _conversas[usuarioId].Add(new
             {
                 role = "assistant",
                 content = resposta
             });
 
-            
             PedidoIA pedidoIA = null;
 
             try
-            { 
+            {
                 var jsonMatch = System.Text.RegularExpressions.Regex.Match(
                     resposta,
                     @"\{[\s\S]*?""acao""[\s\S]*?\}",
@@ -116,25 +134,29 @@ namespace ProjetoLoja.Servicos
                 {
                     pedidoIA = JsonSerializer.Deserialize<PedidoIA>(
                         jsonMatch.Value,
-                        new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+                        new JsonSerializerOptions
+                        {
+                            PropertyNameCaseInsensitive = true,
+                            NumberHandling = JsonNumberHandling.AllowReadingFromString
+                        }
                     );
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                
+                return $"Erro ao interpretar resposta da IA: {ex.Message}";
             }
 
             if (pedidoIA?.Acao != null &&
                 (pedidoIA.Acao.ToLower() == "criar_pedido" || pedidoIA.Acao.ToLower() == "concluir_pedido"))
             {
-                return await CriarPedidoIA(pedidoIA);
+                return await CriarPedidoIA(pedidoIA, usuarioId);
             }
 
             return resposta;
         }
 
-        private async Task<string> CriarPedidoIA(PedidoIA acao)
+        private async Task<string> CriarPedidoIA(PedidoIA acao, string usuarioId)
         {
             var produtos = await _produtoRepo.ObterTodosProdutos();
 
@@ -147,21 +169,13 @@ namespace ProjetoLoja.Servicos
             if (produto.Quantidade < acao.Quantidade)
                 return "Não temos essa quantidade em estoque.";
 
+            if (!int.TryParse(usuarioId, out int clienteId))
+                return "Erro ao identificar o cliente logado.";
 
-            var cliente = await _clienteRepositorio.ObterPorNome(acao.Cliente);
+            var cliente = await _clienteRepositorio.ObterClientePorId(clienteId);
 
             if (cliente == null)
-            {
-                cliente = new Clientes
-                {
-                    Nome = acao.Cliente,
-                    Ativo = true
-                };
-
-                await _clienteRepositorio.Salvar(cliente);
-
-                cliente = await _clienteRepositorio.ObterPorNome(acao.Cliente);
-            }
+                return "Cliente não encontrado.";
 
             var endereco = cliente.Enderecos?.FirstOrDefault();
 
@@ -182,7 +196,6 @@ namespace ProjetoLoja.Servicos
                 endereco = await _enderecoRepositorio.ObterEnderecoPorId(endereco.Id);
             }
 
-            
             var item = new ItensPedido
             {
                 ProdutoId = produto.Id,
@@ -204,11 +217,10 @@ namespace ProjetoLoja.Servicos
             {
                 var pedidoId = await _pedidoAplicacao.AdicionarPedido(pedido);
 
-
                 produto.Quantidade -= acao.Quantidade;
                 await _produtoRepo.AtualizarProduto(produto);
 
-                return $"Pedido realizado com sucesso! 🛒\nNº: {pedidoId}\nCliente: {cliente.Nome}\nProduto: {produto.Nome} x{acao.Quantidade}";
+                return $"Pedido realizado com sucesso! \nNº: {pedidoId}\nCliente: {cliente.Nome}\nProduto: {produto.Nome} x{acao.Quantidade}";
             }
             catch (Exception ex)
             {
