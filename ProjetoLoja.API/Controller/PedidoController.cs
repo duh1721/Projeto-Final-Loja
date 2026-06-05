@@ -33,7 +33,8 @@ namespace ProjetoLoja.API.Controller
                     ClienteId = pedido.ClienteId,
                     EnderecoId = pedido.EnderecoId,
                     DataPedido = pedido.DataPedido,
-                    ValorTotal = pedido.ValorTotal
+                    ValorTotal = pedido.ValorTotal,
+                    Ativo = pedido.Ativo,
                 }).ToList();
                 return Ok(pedidosResposta);
 
@@ -67,7 +68,10 @@ namespace ProjetoLoja.API.Controller
                 var novoPedido = new Pedido()
                 {
                     ClienteId = pedidoCriar.ClienteId,
-                    EnderecoId = pedidoCriar.EnderecoId
+                    EnderecoId = pedidoCriar.EnderecoId,
+                    DataPedido = pedidoCriar.DataPedido,
+                    ValorTotal = pedidoCriar.ValorTotal,
+                    Ativo = true
                 };
 
                 var pedidoId = await _pedidoAplicacao.AdicionarPedido(novoPedido);
@@ -91,7 +95,8 @@ namespace ProjetoLoja.API.Controller
                     ClienteId = pedidoAtualizar.ClienteId,
                     EnderecoId = pedidoAtualizar.EnderecoId,
                     DataPedido = pedidoAtualizar.DataPedido,
-                    ValorTotal = pedidoAtualizar.ValorTotal
+                    ValorTotal = pedidoAtualizar.ValorTotal,
+                    Ativo = pedidoAtualizar.Ativo
                 };
                 await _pedidoAplicacao.AtualizarPedido(pedidoDominio);
 

@@ -78,6 +78,7 @@ namespace ProjetoLoja.API.Controller
 
         [HttpPost]
         [Route("CriarCliente")]
+        [AllowAnonymous]
         public async Task<ActionResult> CriarCliente([FromBody] ClienteCriar cliente)
         {
             try

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ProjetoLoja.Repositorio.Migrations
 {
     [DbContext(typeof(ProjetoLojaContexto))]
-    partial class ProjetoLojaContextoModelSnapshot : ModelSnapshot
+    [Migration("20260602134732_RelacionamentoDeItensProdutos")]
+    partial class RelacionamentoDeItensProdutos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -176,6 +179,9 @@ namespace ProjetoLoja.Repositorio.Migrations
                     b.Property<int>("EnderecoId")
                         .HasColumnType("int")
                         .HasColumnName("EnderecoId");
+
+                    b.Property<int>("ItensPedidoId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("ValorTotal")
                         .HasPrecision(18, 2)

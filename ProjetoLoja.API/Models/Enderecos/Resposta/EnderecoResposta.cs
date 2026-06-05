@@ -10,5 +10,6 @@ namespace ProjetoLoja.API.Models.Enderecos.Resposta
         public string Cidade { get; set; }
         public string Estado { get; set; }
         public string Cep { get; set; }
+        public int ClienteId { get; set; }
     }
 }

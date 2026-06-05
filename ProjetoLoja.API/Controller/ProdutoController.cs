@@ -92,6 +92,7 @@ namespace ProjetoLoja.API.Controller
             {
                 var produtoDominio = new Produto()
                 {
+                    Id = produto.Id,
                     Nome = produto.Nome,
                     Preco = produto.Preco,
                     Quantidade = produto.Quantidade,

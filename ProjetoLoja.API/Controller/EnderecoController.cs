@@ -25,7 +25,19 @@ namespace ProjetoLoja.API.Controller
         public async Task<ActionResult<IEnumerable<Endereco>>> ObterTodosEnderecos()
         {
             var enderecos = await _enderecoAplicacao.ObterTodosEnderecos();
-            return Ok(enderecos);
+
+            var enderecosResposta = enderecos.Select(endereco => new EnderecoResposta()
+            {
+                Id = endereco.Id,
+                Rua = endereco.Rua,
+                Numero = endereco.Numero,
+                Bairro = endereco.Bairro,
+                Cidade = endereco.Cidade,
+                Estado = endereco.Estado,
+                Cep = endereco.Cep,
+                ClienteId = endereco.ClienteId
+            }).ToList();
+            return Ok(enderecosResposta);
         }
 
         [HttpGet]
@@ -49,6 +61,7 @@ namespace ProjetoLoja.API.Controller
 
         [HttpPost]
         [Route("CriarEndereco")]
+        [AllowAnonymous]
         public async Task<ActionResult> CriarEndereco([FromBody] EnderecoCriar endereco)
         {
             try

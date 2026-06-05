@@ -7,6 +7,7 @@ namespace ProjetoLoja.API.Models.Pedidos.Resposta
         public int EnderecoId { get; set; }
         public DateTime DataPedido { get; set; }
         public decimal ValorTotal { get; set; }
+        public bool Ativo { get; set; }
         
     }
 }

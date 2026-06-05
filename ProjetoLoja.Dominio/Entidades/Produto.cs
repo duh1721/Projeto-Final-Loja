@@ -15,8 +15,6 @@ namespace ProjetoLoja.Dominio.Entidades
         public int TipoProdutoId { get; set; }
         public TipoProduto TipoProduto { get; set; }
 
-        public ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
-
         public DateTime DataCriacao { get; set; } = DateTime.Now;
 
         public Produto()
