@@ -1,0 +1,101 @@
+.pagina_conteudo { padding: 8px 0; }
+
+.pagina_cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.pagina_cabecalho h3 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #0a0f4e;
+    margin: 0;
+}
+
+.cabecalho_acoes {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.input_busca {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.9rem;
+    outline: none;
+    width: 220px;
+    transition: border 0.2s;
+}
+
+.input_busca:focus { border-color: #0a0f4e; }
+
+.botao_novo {
+    background-color: #0a0f4e;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    padding: 9px 18px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.2s;
+    display: inline-block;
+}
+
+.botao_novo:hover { background-color: #1a237e; color: #fff; }
+
+.tabela {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+.tabela_cabecalho th {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #999;
+    font-weight: 600;
+    border-top: none;
+}
+
+.botao_editar {
+    color: #0a0f4e;
+    background: #eef0fb;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 1rem;
+    margin-right: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: background 0.15s;
+}
+
+.botao_editar:hover { background: #d5d9f5; color: #0a0f4e; }
+
+.botao_deletar {
+    color: #c00;
+    background: #fff0f0;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    transition: background 0.15s;
+}
+
+.botao_deletar:hover { background: #fcd; }
+
+
+.badge_ativo   { background: #d4edda; color: #155724; padding: 3px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; }
+.badge_inativo { background: #f8d7da; color: #721c24; padding: 3px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; }

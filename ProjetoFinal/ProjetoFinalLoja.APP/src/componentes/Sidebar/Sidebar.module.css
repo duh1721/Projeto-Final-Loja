@@ -1,0 +1,63 @@
+.sidebar_conteudo {
+    background-color: #0a0f4e;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 220px;
+    height: 100%;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+    z-index: 100;
+}
+
+.pagina_conteudo {
+    margin-left: 220px;
+}
+
+.sidebar_header {
+    justify-content: center;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.logo {
+    width: 75%;
+    margin: 12% auto 6%;
+    display: block;
+}
+
+.titulo {
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.subtitulo {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.linha {
+    color: rgba(192, 106, 1, 0.4);
+    margin: 0 20px;
+}
+
+.sidebar_corpo {
+    flex: 1;
+    padding: 10px 0;
+}
+
+.sidebar_rodape {
+    padding: 16px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.4);
+    font-size: 0.7rem;
+    text-align: center;
+}

@@ -1,0 +1,36 @@
+.sidebar_item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.sidebar_item:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.07);
+    border-left-color: rgba(192, 106, 1, 0.5);
+}
+
+.ativo {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-left-color: #e8a020;
+    font-weight: 600;
+}
+
+.texto_link {
+    font-size: 0.9rem;
+    margin: 0;
+    font-weight: inherit;
+}
+
+.icone {
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+}
