@@ -15,6 +15,9 @@ namespace ProjetoLoja.Repositorio.Configuracao
             builder.Property(nameof(Clientes.Email)).HasColumnName("Email").IsRequired(true);
             builder.Property(nameof(Clientes.Telefone)).HasColumnName("Telefone").IsRequired(true);
             builder.Property(nameof(Clientes.Ativo)).HasColumnName("Ativo").IsRequired(true);
+
+            builder.HasIndex(c => c.Email)
+                .IsUnique();
         }
     }
 }

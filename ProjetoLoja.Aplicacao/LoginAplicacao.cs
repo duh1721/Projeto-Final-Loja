@@ -29,6 +29,9 @@ namespace ProjetoLoja.Aplicacao
 
             if (!BCrypt.Net.BCrypt.Verify(senha, usuarioExistente.Senha))
                 throw new Exception("Senha inválida");
+            
+            if(!usuarioExistente.Ativo)
+                throw new Exception("Usuário inativo, Entre em contato com o suporte");
 
 
             return usuarioExistente;

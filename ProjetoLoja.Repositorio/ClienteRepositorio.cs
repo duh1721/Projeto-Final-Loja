@@ -59,7 +59,7 @@ namespace ProjetoLoja.Repositorio
             return await _contexto.Clientes
                 .Include(c => c.Enderecos) 
                 .Where(c => c.Email == email)
-                .Where(c => c.Ativo == true)
+                .Where(c => c.Ativo)
                 .ToListAsync();
         }
     }
